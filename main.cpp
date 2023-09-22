@@ -2,6 +2,9 @@
 #include <list>
 #include <string>
 #include <vector>
+#include <ctime>
+#include <cstdlib>
+#include <random>
 
 using namespace std;
 
@@ -85,27 +88,66 @@ public:
         } while (temp != head);
     }
 
-    friend ostream& operator << (ostream &out, vector<variable>);
+
+
+    void qsort(){
+
+    }
+
+
+    friend ostream &operator<<(ostream &out, vector<variable>);
+
+    ~LIST() {
+        while (head != nullptr) {
+            node<variable> *temp = head;
+            head = head->getNext();
+            delete (temp);
+        }
+    }
 };
 
 
-
 int main() {
+    srand(time(nullptr));
+
+    random_device rd;
+    mt19937 mt(rd());
+    uniform_real_distribution<double> dist(1.0, 1000.0);
+
+    int sizeIntList, sizeStringList, sizeVectorList = 0;
+    double sizeDoubleList = 0.0;
+    cout << "Enter the size of IntList: ";
+    cin >> sizeIntList;
+    cout << "Enter the size of DoubleList: ";
+    cin >> sizeDoubleList;
+    cout << "Enter the size of StringList: ";
+    cin >> sizeStringList;
+    cout << "Enter the size of VectorList: ";
+    cin >> sizeVectorList;
     LIST<int> intList;
     LIST<double> doubleList;
     LIST<string> stringList;
-    LIST<vector<int>> vectorList;
-    for (int i = 0; i < 8; i++) {
-        intList.AddLastNode(i * 5);
+    LIST<vector<int>> vectorIntList;
+
+    //LIST<int*> arrayList;
+
+    LIST<vector<double>> vectorDoubleList;
+    LIST<vector<string>> vectorStringList;
+    for (int i = 0; i < sizeIntList; i++) {
+        intList.AddLastNode(rand() % 10);
     }
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < sizeDoubleList; i++) {
+        doubleList.AddLastNode(dist(mt));
+    }
+    for (int j = 0; j < sizeStringList; j++) {
         stringList.AddLastNode("boPaQQQ");
     }
-    for (int i = 0; i < 8; i++) {
-        vectorList.AddLastNode({i, 2 * i, 3 * i});
+    for (int k = 0; k < sizeVectorList; k++) {
+        vectorIntList.AddLastNode({rand() % 10 + 5, rand() % 10 + 15, rand() % 10 + 25});
     }
     intList.showList();
+    doubleList.showList();
     stringList.showList();
-    vectorList.showList();
+    vectorIntList.showList();
     return 0;
 }
