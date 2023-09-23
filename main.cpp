@@ -5,6 +5,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <random>
+#include <utility>
 
 using namespace std;
 
@@ -21,8 +22,8 @@ template<typename variable>
 class node {
 private:
     variable value;
-    node *next;
-    node *prev;
+    node<variable> *next;
+    node<variable> *prev;
 public:
     node() {
         next = prev = nullptr;
@@ -79,6 +80,10 @@ public:
     }
 
     void showList() {
+        if (!head) {
+            cout << "List is empty.\n";
+            return;
+        }
         node<variable> *temp = head;
         int i = 1;
         do {
@@ -88,10 +93,99 @@ public:
         } while (temp != head);
     }
 
+    void bubbleSort(variable size) {
+        bool change = true;
+        int sorted = 0;
+        while (change and sorted < size) {
+            node<variable> *temp = head;
+            change = false;
+            for (int i = 0; i < size - 1 - sorted; i++) {
+                if (temp->getValue() > (temp->getNext())->getValue()) {
+                    variable temporary = temp->getValue(); // to swap data in nodes
+                    temp->setValue((temp->getNext())->getValue());
+                    (temp->getNext())->setValue(temporary);
+                    change = true;
+                }
+                temp = temp->getNext();
+            }
+            sorted++;
+        }
+    }
+
+    void selectionSort() {
+        node<variable> *temp = head;
+
+        // Traverse the List
+        while (temp->getNext() != head) {
+            node<variable> *min = temp;
+            node<variable> *r = temp->getNext();
+
+            // Traverse the unsorted sublist
+            while (r != head) {
+                if (min->getValue() > r->getValue())
+                    min = r;
+
+                r = r->getNext();
+            }
+
+            // Swap Data
+            variable temporary = temp->getValue();
+            temp->setValue(min->getValue());
+            min->setValue(temporary);
+            temp = temp->getNext();
+        }
+    }
 
 
-    void qsort(){
+/* Considers last element as pivot,
+places the pivot element at its
+correct position in sorted array,
+and places all smaller (smaller than
+pivot) to left of pivot and all greater
+elements to right of pivot */
+    node<variable> *partition(node<variable> *leftMost, node<variable> *rightMost) {
+        // set pivot as rightMost element
+        variable x = rightMost->getValue();
 
+        // similar to i = l-1 for array implementation
+        node<variable> *i = leftMost->getPrev();
+
+        // Similar to "for (int j = l; j <= rightMost- 1; j++)"
+        for (node<variable> *j = leftMost; j != rightMost; j = j->getNext()) {
+            if (j->getValue() <= x) {
+                // Similar to i++ for array
+
+                i = (i == NULL) ? leftMost : i->getNext();
+
+                //swap(&(i->getValue()), &(j->getValue()));
+                variable temporary = i->getValue();
+                i->setValue(j->getValue());
+                j->setValue(temporary);
+            }
+        }
+        i = (i == NULL) ? leftMost : i->getNext(); // Similar to i++
+        //swap(&(i->getValue()), &(rightMost->getValue()));
+        variable temporary = i->getValue();
+        i->setValue(rightMost->getValue());
+        rightMost->setValue(temporary);
+        return i;
+    }
+
+/* A recursive implementation
+of quicksort for linked list */
+    void _quickSort(node<variable> *leftMost, node<variable> *rightMost) {
+        if (rightMost != nullptr && leftMost != rightMost && leftMost != rightMost->getNext()) {
+            node<variable> *p = partition(leftMost, rightMost);
+            _quickSort(leftMost, p->getPrev());
+            _quickSort(p->getNext(), rightMost);
+        }
+    }
+
+// The main function to sort a linked list.
+// It mainly calls _quickSort()
+    void quickSort() {
+        // Call the recursive QuickSort
+        _quickSort(head, tail);
     }
 
 
@@ -104,6 +198,15 @@ public:
             delete (temp);
         }
     }
+};
+
+class books {
+private:
+    string nameOfBook;
+    string authorName;
+    string releaseDate;
+    int numOfPages;
+
 };
 
 
@@ -145,6 +248,10 @@ int main() {
     for (int k = 0; k < sizeVectorList; k++) {
         vectorIntList.AddLastNode({rand() % 10 + 5, rand() % 10 + 15, rand() % 10 + 25});
     }
+    //intList.bubbleSort(sizeIntList);
+    //doubleList.bubbleSort(sizeDoubleList);
+    //intList.selectionSort();
+    intList.quickSort();
     intList.showList();
     doubleList.showList();
     stringList.showList();
