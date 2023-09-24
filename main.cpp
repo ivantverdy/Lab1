@@ -23,10 +23,9 @@ class node {
 private:
     variable value;
     node<variable> *next;
-    node<variable> *prev;
 public:
     node() {
-        next = prev = nullptr;
+        next = nullptr;
     }
 
     void setValue(variable setV) {
@@ -41,74 +40,136 @@ public:
         return next;
     }
 
-    node *getPrev() {
-        return prev;
-    }
-
     void setNext(node<variable> *nextNode) {
         next = nextNode;
     }
 
-    void setPrev(node<variable> *prevNode) {
-        prev = prevNode;
-    }
 };
 
 template<typename variable>
 class LIST {
 private:
-    node<variable> *head, *tail;
+    node<variable> *head;
+
+    node<variable>* getTail(node<variable>* cur)
+    {
+        while (cur != nullptr &&
+               cur->getNext() != nullptr)
+            cur = cur->getNext();
+        return cur;
+    }
+
+    // taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-quicksort-on-singly-linked-list/
+
+    node<variable> *partition(node<variable> *head, node<variable> *end, node<variable> **newHead, node<variable> **newEnd) {
+        // Set pivot as the last element
+        node<variable>* pivot = end;
+        node<variable>* prev = nullptr;
+        node<variable>* cur = head;
+        node<variable>* tail = pivot;
+
+        while (cur != pivot) {
+            if (cur->getValue() < pivot->getValue()) {
+                if ((*newHead) == nullptr) {
+                    (*newHead) = cur;
+                }
+                prev = cur;
+                cur = cur->getNext();
+            } else {
+                if (prev)
+                    prev->setNext(cur->getNext());
+
+                node<variable>* tmp = cur->getNext();
+                cur->setNext(nullptr);
+                tail->setNext(cur);
+                tail = cur;
+                cur = tmp;
+            }
+        }
+
+        if ((*newHead) == nullptr)
+            (*newHead) = pivot;
+        (*newEnd) = tail;
+        return pivot;
+    }
+
+    node<variable>* quickSortRecur(node<variable> *head, node<variable> *end) {
+        if (!head || head == end)
+            return head;
+
+        node<variable> *newHead = nullptr;
+        node<variable> *newEnd = nullptr;
+
+        node<variable> *pivot = partition(head, end, &newHead, &newEnd);
+
+        if (newHead != pivot) {
+            node<variable>* tmp = newHead;
+            while (tmp->getNext() != pivot)
+                tmp = tmp->getNext();
+            tmp->setNext(nullptr);
+
+            newHead = quickSortRecur(newHead, tmp);
+
+            tmp = getTail(newHead);
+            tmp->setNext(pivot);
+        }
+
+        pivot->setNext(quickSortRecur(pivot->getNext(), newEnd));
+
+        return newHead;
+    }
 public:
     LIST() {
-        head = tail = nullptr;
+        head  = nullptr;
     }
 
     void AddLastNode(variable data) {
         node<variable> *temp = new node<variable>;
         temp->setValue(data);
-        if (!head) {
-            temp->setNext(temp);
-            temp->setPrev(temp);
-            head = tail = temp;
+        temp->setNext(nullptr);
+        if (head == nullptr) {
+            head = temp;
         } else {
-            head->setPrev(temp);
-            temp->setNext(head);
-            tail->setNext(temp);
-            temp->setPrev(tail);
-            tail = temp;
+            node<variable> *curr = head;
+            while(curr->getNext() != nullptr)
+                curr = curr->getNext();
+            curr->setNext(temp);
         }
     }
 
     void showList() {
-        if (!head) {
-            cout << "List is empty.\n";
+        node<variable> *temp = head;
+        if (temp == nullptr) {
+            cout << "List is empty.";
             return;
         }
-        node<variable> *temp = head;
         int i = 1;
-        do {
-            cout << "Data in node " << i << " = " << temp->getValue() << "\n";
+        while (temp != nullptr) {
+            cout << " Data in node " << i << " = " << temp->getValue() << endl;
             temp = temp->getNext();
             i++;
-        } while (temp != head);
+        }
     }
 
-    void bubbleSort(variable size) {
+    void bubbleSort() {
         bool change = true;
-        int sorted = 0;
-        while (change and sorted < size) {
-            node<variable> *temp = head;
+        node<variable> *temp;
+        node<variable> *lastSorted = nullptr; //last sorted node
+
+        while (change) {
+            temp = head;
             change = false;
-            for (int i = 0; i < size - 1 - sorted; i++) {
-                if (temp->getValue() > (temp->getNext())->getValue()) {
-                    variable temporary = temp->getValue(); // to swap data in nodes
-                    temp->setValue((temp->getNext())->getValue());
-                    (temp->getNext())->setValue(temporary);
+            while (temp->getNext() != lastSorted) {
+                if (temp->getValue() > temp->getNext()->getValue()) {
+                    //swap the data in the nodes
+                    variable temporary = temp->getValue();
+                    temp->setValue(temp->getNext()->getValue());
+                    temp->getNext()->setValue(temporary);
                     change = true;
                 }
                 temp = temp->getNext();
             }
-            sorted++;
+            lastSorted = temp; //last sorted node
         }
     }
 
@@ -116,12 +177,12 @@ public:
         node<variable> *temp = head;
 
         // Traverse the List
-        while (temp->getNext() != head) {
+        while (temp->getNext() != nullptr) {
             node<variable> *min = temp;
             node<variable> *r = temp->getNext();
 
             // Traverse the unsorted sublist
-            while (r != head) {
+            while (r != nullptr) {
                 if (min->getValue() > r->getValue())
                     min = r;
 
@@ -136,58 +197,9 @@ public:
         }
     }
 
-
-/* Considers last element as pivot,
-places the pivot element at its
-correct position in sorted array,
-and places all smaller (smaller than
-pivot) to left of pivot and all greater
-elements to right of pivot */
-    node<variable> *partition(node<variable> *leftMost, node<variable> *rightMost) {
-        // set pivot as rightMost element
-        variable x = rightMost->getValue();
-
-        // similar to i = l-1 for array implementation
-        node<variable> *i = leftMost->getPrev();
-
-        // Similar to "for (int j = l; j <= rightMost- 1; j++)"
-        for (node<variable> *j = leftMost; j != rightMost; j = j->getNext()) {
-            if (j->getValue() <= x) {
-                // Similar to i++ for array
-
-                i = (i == NULL) ? leftMost : i->getNext();
-
-                //swap(&(i->getValue()), &(j->getValue()));
-                variable temporary = i->getValue();
-                i->setValue(j->getValue());
-                j->setValue(temporary);
-            }
-        }
-        i = (i == NULL) ? leftMost : i->getNext(); // Similar to i++
-        //swap(&(i->getValue()), &(rightMost->getValue()));
-        variable temporary = i->getValue();
-        i->setValue(rightMost->getValue());
-        rightMost->setValue(temporary);
-        return i;
-    }
-
-/* A recursive implementation
-of quicksort for linked list */
-    void _quickSort(node<variable> *leftMost, node<variable> *rightMost) {
-        if (rightMost != nullptr && leftMost != rightMost && leftMost != rightMost->getNext()) {
-            node<variable> *p = partition(leftMost, rightMost);
-            _quickSort(leftMost, p->getPrev());
-            _quickSort(p->getNext(), rightMost);
-        }
-    }
-
-// The main function to sort a linked list.
-// It mainly calls _quickSort()
     void quickSort() {
-        // Call the recursive QuickSort
-        _quickSort(head, tail);
+        head = quickSortRecur(head, getTail(head));
     }
-
 
     friend ostream &operator<<(ostream &out, vector<variable>);
 
@@ -200,7 +212,7 @@ of quicksort for linked list */
     }
 };
 
-class books {
+class bookShelf {
 private:
     string nameOfBook;
     string authorName;
@@ -219,6 +231,7 @@ int main() {
 
     int sizeIntList, sizeStringList, sizeVectorList = 0;
     double sizeDoubleList = 0.0;
+    string words;
     cout << "Enter the size of IntList: ";
     cin >> sizeIntList;
     cout << "Enter the size of DoubleList: ";
@@ -239,22 +252,26 @@ int main() {
     for (int i = 0; i < sizeIntList; i++) {
         intList.AddLastNode(rand() % 10);
     }
-    for (int i = 0; i < sizeDoubleList; i++) {
+    for (int j = 0; j < sizeDoubleList; j++) {
         doubleList.AddLastNode(dist(mt));
     }
-    for (int j = 0; j < sizeStringList; j++) {
-        stringList.AddLastNode("boPaQQQ");
+    for (int k = 0; k < sizeStringList; k++) {
+        cout<< "String Words you want to be in each node: ";
+        cin >> words;
+        stringList.AddLastNode(words);
     }
-    for (int k = 0; k < sizeVectorList; k++) {
+    for (int q = 0; q < sizeVectorList; q++) {
         vectorIntList.AddLastNode({rand() % 10 + 5, rand() % 10 + 15, rand() % 10 + 25});
     }
-    //intList.bubbleSort(sizeIntList);
-    //doubleList.bubbleSort(sizeDoubleList);
+    //intList.bubbleSort();
+    //doubleList.bubbleSort();
+    //stringList.bubbleSort();
     //intList.selectionSort();
+    //doubleList.selectionSort();
     intList.quickSort();
     intList.showList();
-    doubleList.showList();
-    stringList.showList();
-    vectorIntList.showList();
+    //doubleList.showList();
+    //stringList.showList();
+    //vectorIntList.showList();
     return 0;
 }
