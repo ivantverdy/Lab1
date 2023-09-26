@@ -112,10 +112,12 @@ private:
 
 public:
 
+    arrList(){
+        array=new T[INITIAL_CAPACITY];
+        capacity = INITIAL_CAPACITY;
+    }
+
     void add(T data){
-        if(!array) {
-            array = new T[INITIAL_CAPACITY];
-        }
         if (size == capacity) {
             grow_capacity();
         }
