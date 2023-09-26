@@ -5,7 +5,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <random>
-#include <utility>
+#include <algorithm>
 
 using namespace std;
 
@@ -50,23 +50,23 @@ template<typename variable>
 class LIST {
 private:
     node<variable> *head;
+    node<variable> *sorted;
 
-    node<variable>* getTail(node<variable>* cur)
-    {
-        while (cur != nullptr &&
-               cur->getNext() != nullptr)
+    node<variable> *getTail(node<variable> *cur) {
+        while (cur != nullptr && cur->getNext() != nullptr)
             cur = cur->getNext();
         return cur;
     }
 
     // taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-quicksort-on-singly-linked-list/
 
-    node<variable> *partition(node<variable> *head, node<variable> *end, node<variable> **newHead, node<variable> **newEnd) {
+    node<variable> *
+    partition(node<variable> *head, node<variable> *end, node<variable> **newHead, node<variable> **newEnd) {
         // Set pivot as the last element
-        node<variable>* pivot = end;
-        node<variable>* prev = nullptr;
-        node<variable>* cur = head;
-        node<variable>* tail = pivot;
+        node<variable> *pivot = end;
+        node<variable> *prev = nullptr;
+        node<variable> *cur = head;
+        node<variable> *tail = pivot;
 
         while (cur != pivot) {
             if (cur->getValue() < pivot->getValue()) {
@@ -79,7 +79,7 @@ private:
                 if (prev)
                     prev->setNext(cur->getNext());
 
-                node<variable>* tmp = cur->getNext();
+                node<variable> *tmp = cur->getNext();
                 cur->setNext(nullptr);
                 tail->setNext(cur);
                 tail = cur;
@@ -93,7 +93,7 @@ private:
         return pivot;
     }
 
-    node<variable>* quickSortRecur(node<variable> *head, node<variable> *end) {
+    node<variable> *quickSortRecur(node<variable> *head, node<variable> *end) {
         if (!head || head == end)
             return head;
 
@@ -103,7 +103,7 @@ private:
         node<variable> *pivot = partition(head, end, &newHead, &newEnd);
 
         if (newHead != pivot) {
-            node<variable>* tmp = newHead;
+            node<variable> *tmp = newHead;
             while (tmp->getNext() != pivot)
                 tmp = tmp->getNext();
             tmp->setNext(nullptr);
@@ -118,20 +118,86 @@ private:
 
         return newHead;
     }
+
+    // Merge sort for a linked list
+    void MergeSort(node<variable> **headRef) {
+        node<variable> *head = *headRef;
+        node<variable> *a;
+        node<variable> *b;
+
+        // Base case -- length 0 or 1
+        if (head == nullptr || head->getNext() == nullptr) {
+            return;
+        }
+
+        // Split head into 'a' and 'b' sublists
+        FrontBackSplit(head, &a, &b);
+
+        // Recursively sort the sublists
+        MergeSort(&a);
+        MergeSort(&b);
+
+        // Merge the sorted lists together
+        *headRef = SortedMerge(a, b);
+    }
+
+    // Merge two sorted lists
+    node<variable> *SortedMerge(node<variable> *a, node<variable> *b) {
+        node<variable> *result = nullptr;
+
+        // Base cases
+        if (a == nullptr)
+            return b;
+        else if (b == nullptr)
+            return a;
+
+        // Pick either a or b, and recur
+        if (a->getValue() <= b->getValue()) {
+            result = a;
+            result->setNext(SortedMerge(a->getNext(), b));
+        } else {
+            result = b;
+            result->setNext(SortedMerge(a, b->getNext()));
+        }
+        return result;
+    }
+
+    // Split the nodes of the given list into front and back halves
+    void FrontBackSplit(node<variable> *source, node<variable> **frontRef, node<variable> **backRef) {
+        node<variable> *fast;
+        node<variable> *slow;
+        slow = source;
+        fast = source->getNext();
+
+        // Advance 'fast' two nodes, and advance 'slow' one node
+        while (fast != nullptr) {
+            fast = fast->getNext();
+            if (fast != nullptr) {
+                slow = slow->getNext();
+                fast = fast->getNext();
+            }
+        }
+
+        // 'slow' is before the midpoint in the list, so split it in two at that point
+        *frontRef = source;
+        *backRef = slow->getNext();
+        slow->setNext(nullptr);
+    }
+
 public:
     LIST() {
-        head  = nullptr;
+        head = nullptr;
     }
 
     void AddLastNode(variable data) {
-        node<variable> *temp = new node<variable>;
+        auto *temp = new node<variable>;
         temp->setValue(data);
         temp->setNext(nullptr);
         if (head == nullptr) {
             head = temp;
         } else {
             node<variable> *curr = head;
-            while(curr->getNext() != nullptr)
+            while (curr->getNext() != nullptr)
                 curr = curr->getNext();
             curr->setNext(temp);
         }
@@ -140,7 +206,7 @@ public:
     void showList() {
         node<variable> *temp = head;
         if (temp == nullptr) {
-            cout << "List is empty.";
+            cout << "List is empty." << endl;
             return;
         }
         int i = 1;
@@ -198,8 +264,67 @@ public:
     }
 
     void quickSort() {
-        head = quickSortRecur(head, getTail(head));
+        quickSortRecur(head, getTail(head));
     }
+
+    // taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-insertion-sort-in-a-singly-linked-list/
+
+    void insertionSort() {
+        // Initialize sorted linked list
+        sorted = NULL;
+        node<variable> *current = head;
+
+        // Traverse the given linked list
+        // and insert every node to sorted
+        while (current != NULL) {
+            // Store next for next iteration
+            node<variable> *next = current->getNext();
+
+            // Insert current in sorted
+            // linked list
+            sortedInsert(current);
+
+            // Update current
+            current = next;
+        }
+
+        // Update head_ref to point to
+        // sorted linked list
+        head = sorted;
+    }
+
+    /* Function to insert a new_node in a list.
+       Note that this function expects a pointer
+       to head_ref as this can modify the head of
+       the input linked list (similar to push()) */
+    void sortedInsert(node<variable> *newNode) {
+        // Special case for the head end
+        if (sorted == NULL || sorted->getValue() >= newNode->getValue()) {
+            newNode->setNext(sorted);
+            sorted = newNode;
+        } else {
+            node<variable> *current = sorted;
+            /* Locate the node before the
+               point of insertion */
+            while (current->getNext() != NULL && current->getNext()->getValue() < newNode->getValue()) {
+                current = current->getNext();
+            }
+            newNode->setNext(current->getNext());
+            current->setNext(newNode);
+        }
+    }
+
+    //taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-merge-sort-of-linked-lists/
+
+    void MergeSort() {
+        MergeSort(&head);
+    }
+
+    void vectorSort(){
+
+    }
+
+
 
     friend ostream &operator<<(ostream &out, vector<variable>);
 
@@ -232,13 +357,13 @@ int main() {
     int sizeIntList, sizeStringList, sizeVectorList = 0;
     double sizeDoubleList = 0.0;
     string words;
-    cout << "Enter the size of IntList: ";
-    cin >> sizeIntList;
-    cout << "Enter the size of DoubleList: ";
-    cin >> sizeDoubleList;
-    cout << "Enter the size of StringList: ";
-    cin >> sizeStringList;
-    cout << "Enter the size of VectorList: ";
+    //cout << "Enter the size of IntList: "<< endl;
+    //cin >> sizeIntList;
+    //cout << "Enter the size of DoubleList: "<< endl;
+    //cin >> sizeDoubleList;
+    //cout << "Enter the size of StringList: " << endl;
+    //cin >> sizeStringList;
+    cout << "Enter the size of VectorList: " << endl;
     cin >> sizeVectorList;
     LIST<int> intList;
     LIST<double> doubleList;
@@ -250,28 +375,53 @@ int main() {
     LIST<vector<double>> vectorDoubleList;
     LIST<vector<string>> vectorStringList;
     for (int i = 0; i < sizeIntList; i++) {
-        intList.AddLastNode(rand() % 10);
+        intList.AddLastNode(rand() % 100);
     }
     for (int j = 0; j < sizeDoubleList; j++) {
         doubleList.AddLastNode(dist(mt));
     }
     for (int k = 0; k < sizeStringList; k++) {
-        cout<< "String Words you want to be in each node: ";
+        cout << "String Words you want to be in each node: " << endl;
         cin >> words;
         stringList.AddLastNode(words);
     }
     for (int q = 0; q < sizeVectorList; q++) {
-        vectorIntList.AddLastNode({rand() % 10 + 5, rand() % 10 + 15, rand() % 10 + 25});
+        vectorIntList.AddLastNode({rand() % 100, rand() % 100, rand() % 100, rand() % 100});
     }
-    //intList.bubbleSort();
-    //doubleList.bubbleSort();
-    //stringList.bubbleSort();
-    //intList.selectionSort();
-    //doubleList.selectionSort();
-    intList.quickSort();
-    intList.showList();
+
+    //intList.showList();
     //doubleList.showList();
     //stringList.showList();
-    //vectorIntList.showList();
+    vectorIntList.showList();
+
+    //intList.bubbleSort();
+    //intList.selectionSort();
+    //intList.quickSort();
+    //intList.insertionSort();
+    //intList.MergeSort();
+
+    //doubleList.bubbleSort();
+    //doubleList.selectionSort();
+    //doubleList.quickSort();
+    //doubleList.insertionSort();
+    //doubleList.MergeSort();
+
+    //stringList.bubbleSort();
+    //stringList.selectionSort();
+    //stringList.quickSort();
+    //stringList.insertionSort();
+    //stringList.MergeSort();
+
+    vectorIntList.bubbleSort();
+    vectorIntList.selectionSort();
+    vectorIntList.quickSort();
+    vectorIntList.insertionSort();
+    vectorIntList.MergeSort();
+
+    cout << "Sorted list: " << endl;
+    //intList.showList();
+    //doubleList.showList();
+    //stringList.showList();
+    vectorIntList.showList();
     return 0;
 }
