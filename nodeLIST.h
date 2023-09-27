@@ -7,7 +7,6 @@
 #include "helper.h"
 #include <iostream>
 
-
 using namespace std;
 
 template<typename T>
@@ -49,8 +48,6 @@ private:
             cur = cur->getNext();
         return cur;
     }
-
-    // taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-quicksort-on-singly-linked-list/
 
     node<T> *partition(node<T> *head, node<T> *end, node<T> **newHead, node<T> **newEnd) {
         // Set pivot as the last element
@@ -111,7 +108,7 @@ private:
     }
 
     // Merge sort for a linked list
-    void MergeSort(node<T> **headRef) {
+    void mergeSortPrivate(node<T> **headRef) {
         node<T> *head = *headRef;
         node<T> *a;
         node<T> *b;
@@ -122,18 +119,18 @@ private:
         }
 
         // Split head into 'a' and 'b' sublists
-        FrontBackSplit(head, &a, &b);
+        frontBackSplit(head, &a, &b);
 
         // Recursively sort the sublists
-        MergeSort(&a);
-        MergeSort(&b);
+        mergeSortPrivate(&a);
+        mergeSortPrivate(&b);
 
         // Merge the sorted lists together
-        *headRef = SortedMerge(a, b);
+        *headRef = sortedMerge(a, b);
     }
 
     // Merge two sorted lists
-    node<T> *SortedMerge(node<T> *a, node<T> *b) {
+    node<T> *sortedMerge(node<T> *a, node<T> *b) {
         node<T> *result = nullptr;
 
         // Base cases
@@ -145,16 +142,16 @@ private:
         // Pick either a or b, and recur
         if (a->getValue() <= b->getValue()) {
             result = a;
-            result->setNext(SortedMerge(a->getNext(), b));
+            result->setNext(sortedMerge(a->getNext(), b));
         } else {
             result = b;
-            result->setNext(SortedMerge(a, b->getNext()));
+            result->setNext(sortedMerge(a, b->getNext()));
         }
         return result;
     }
 
     // Split the nodes of the given list into front and back halves
-    void FrontBackSplit(node<T> *source, node<T> **frontRef, node<T> **backRef) {
+    void frontBackSplit(node<T> *source, node<T> **frontRef, node<T> **backRef) {
         node<T> *fast;
         node<T> *slow;
         slow = source;
@@ -295,7 +292,8 @@ public:
         }
         int i = 1;
         while (temp != nullptr) {
-            cout << " Data in node " << i << " = " << temp->getValue() << endl;
+            //cout << " Data in node " << i << " = " << temp->getValue() << endl;
+            cout << temp->getValue() << endl;
             temp = temp->getNext();
             i++;
         }
@@ -347,6 +345,7 @@ public:
         }
     }
 
+    // taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-quicksort-on-singly-linked-list/
     void quickSort() {
         quickSortRecur(head, getTail(head));
     }
@@ -357,8 +356,8 @@ public:
     }
 
     //taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-merge-sort-of-linked-lists/
-    void MergeSort() {
-        MergeSort(&head);
+    void mergeSort() {
+        mergeSortPrivate(&head);
     }
 
     friend ostream &operator<<(ostream &out, vector<T>);

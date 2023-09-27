@@ -42,17 +42,17 @@ private:
 
     int partition(int low, int high) {
         T pivot = array[high];
-        int i = (low - 1);
+        int index = (low - 1);
 
-        for (int j = low; j <= high - 1; j++) {
-            if (array[j] < pivot) {
-                i++;
-                swap(array[i], array[j]);
+        for (int i = low; i <= high - 1; i++) {
+            if (array[i] < pivot) {
+                index++;
+                swap(array[index], array[i]);
             }
         }
 
-        swap(array[i + 1], array[high]);
-        return (i + 1);
+        swap(array[index + 1], array[high]);
+        return (index + 1);
     }
 
     void merge(int left, int middle, int right) {
@@ -99,7 +99,7 @@ private:
         delete[] rightArray;
     }
 
-    void mergeSort(int const begin, int const end)
+    void mergeSort(int begin, int end)
     {
         if (begin >= end)
             return;
@@ -194,13 +194,16 @@ public:
     void showList(){
         for(int i=0; i<size; i++)
         {
-            cout << " Data in node " << i << " = " << array[i] << endl;
+            //cout << " Data in node " << i+1 << " = " << array[i] << endl;
+            cout << array[i] << endl;
         }
     }
 
     void quickSort() {
         quickSortRecur(0, size - 1);
     }
+
+    //taken algorithm and code from this site and rebuild it for myself:https://www.geeksforgeeks.org/merge-sort/
 
     void mergeSort() {
         mergeSort(0, size - 1);
