@@ -19,23 +19,22 @@ int main() {
     mt19937 mt(rd());
     uniform_real_distribution<double> dist(1.0, 1000.0);
 
-    vectorList<string> Authors;
-    Authors.add("mama");
-    Authors.add("papa");
-    Authors.add("brat");
-    Authors.add("sestra");
-    Authors.;
-    book book1("123", "11.03.2005", "123", , 120);
 
-
-
-
-
-
-
-
-
-
+    vector<string> authorsNot = {"mama", "papa", "brat", "sestra"};
+    vectorList<string> authors;
+    vectorList<book> library;
+    authors.add("abab");
+    authors.add("abac");
+    authors.add("abbc");
+    authors.add("abcd");
+    authors.quickSort();
+    authors.mergeSort();
+    authors.insertionSort();
+    book book1("Name", "11.03.2005", "Annotation",authorsNot , 200);
+    book book2("Name", "11.03.2005", "Annotation", authors.getVectorList() , 200);
+    library.add(book1);
+    library.add(book2);
+    library.showList();
 
 
 

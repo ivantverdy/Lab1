@@ -70,6 +70,10 @@ public:
         }
     }
 
+    vector<T> getVectorList(){
+        return vec;
+    }
+
     void add(T data) {
         vec.push_back(data);
     }

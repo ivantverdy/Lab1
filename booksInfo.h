@@ -28,6 +28,7 @@ public:
         annotation = annotation1;
         authorsName = authorsName1;
         numOfPages = numOfPages1;
+
     }
 
     string getNameOfBook() { return nameOfBook; }
