@@ -4,15 +4,17 @@
 
 #ifndef LABB1_ARRLIST_H
 #define LABB1_ARRLIST_H
+
 #include "helper.h"
 #include <iostream>
 
 using namespace std;
 
+
 template<typename T>
 class arrList {
 private:
-    T* array;
+    T *array{};
     int size{};
     int capacity{};
     const int INITIAL_CAPACITY = 10;
@@ -26,7 +28,7 @@ private:
         return -1;
     }
 
-    void swap(T& a, T& b) {
+    void swap(T &a, T &b) {
         T temp = a;
         a = b;
         b = temp;
@@ -59,8 +61,8 @@ private:
         int subArrayOne = middle - left + 1;
         int subArrayTwo = right - middle;
 
-        T* leftArray = new T[subArrayOne];
-        T* rightArray = new T[subArrayTwo];
+        T *leftArray = new T[subArrayOne];
+        T *rightArray = new T[subArrayTwo];
 
         for (int i = 0; i < subArrayOne; i++) {
             leftArray[i] = array[left + i];
@@ -69,7 +71,7 @@ private:
             rightArray[i] = array[middle + 1 + i];
         }
 
-        int i, j = 0;
+        int i = 0, j = 0;
         int k = left;
 
         while (i < subArrayOne && j < subArrayTwo) {
@@ -99,25 +101,24 @@ private:
         delete[] rightArray;
     }
 
-    void mergeSort(int begin, int end)
-    {
+    void mergeSort(int begin, int end) {
         if (begin >= end)
             return;
 
         int mid = begin + (end - begin) / 2;
         mergeSort(begin, mid);
         mergeSort(mid + 1, end);
-        merge( begin, mid, end);
+        merge(begin, mid, end);
     }
 
 public:
 
-    arrList(){
-        array=new T[INITIAL_CAPACITY];
+    arrList() {
+        array = new T[INITIAL_CAPACITY];
         capacity = INITIAL_CAPACITY;
     }
 
-    void add(T data){
+    void add(T data) {
         if (size == capacity) {
             grow_capacity();
         }
@@ -125,7 +126,15 @@ public:
         size++;
     }
 
-    bool insert(T key, T data){
+    vector<T> getArrayList() {
+        vector<T> arrList;
+        for (int i = 0; i < size; i++) {
+            arrList.push_back(array[i]);
+        }
+        return arrList;
+    }
+
+    bool insert(T key, T data) {
         int key_index = find(key);
         if (key_index == -1) {
             return false;
@@ -142,7 +151,7 @@ public:
         return true;
     }
 
-    bool remove(T key){
+    bool remove(T key) {
         int key_index = find(key);
         if (key_index == -1) {
             return false;
@@ -155,10 +164,8 @@ public:
     }
 
     void bubbleSort() {
-        for (int i = 0; i < size - 1; i++)
-        {
-            for (int j = 0; j < size - i - 1; j++)
-            {
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - i - 1; j++) {
                 if (array[j] > array[j + 1]) {
                     swap(array[j], array[j + 1]);
                 }
@@ -169,8 +176,7 @@ public:
     void selectionSort() {
         for (int i = 0; i < size - 1; i++) {
             int minIndex = i;
-            for (int j = i + 1; j < size; j++)
-            {
+            for (int j = i + 1; j < size; j++) {
                 if (array[j] < array[minIndex]) {
                     minIndex = j;
                 }
@@ -191,9 +197,8 @@ public:
         }
     }
 
-    void showList(){
-        for(int i=0; i<size; i++)
-        {
+    void showList() {
+        for (int i = 0; i < size; i++) {
             //cout << " Data in node " << i+1 << " = " << array[i] << endl;
             cout << array[i] << endl;
         }
@@ -209,11 +214,11 @@ public:
         mergeSort(0, size - 1);
     }
 
-    friend ostream &operator<<(ostream &out, vector<T>);
+    friend ostream &operator<<(ostream &out, vector<T> &vectorOut);
 
     void grow_capacity() {
         capacity *= 2;
-        T* new_items = new T[capacity];
+        T *new_items = new T[capacity];
         for (int i = 0; i < size; i++) {
             new_items[i] = array[i];
         }

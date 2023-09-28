@@ -1,18 +1,36 @@
-#include <iostream>
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <ctime>
 #include <cstdlib>
 #include <random>
-#include "nodeLIST.h"
+
+#include "nodeList.h"
 #include "arrList.h"
 #include "vectorList.h"
 #include "booksInfo.h"
 
 using namespace std;
 
+int menuMovement;
+
+/*void menu(){
+    cout << "Choose option: " << endl;
+    cout << "Close program: 1" << endl;
+    cout << "Write down data: 2" << endl;
+    cout << "Show data: 3" << endl;
+    cout << "Change data: 4" << endl;
+    cout << "Add data: 5" << endl;
+    cout << "Sort data: 6" << endl;
+    cout << "Save data: 7" << endl;
+    cout << "Your choice: ";
+    cin >> menuMovement;
+}*/
 
 int main() {
+
+    //menu();
+
+    string fileName;
+
     srand(time(nullptr));
 
     random_device rd;
@@ -20,21 +38,44 @@ int main() {
     uniform_real_distribution<double> dist(1.0, 1000.0);
 
 
-    vector<string> authorsNot = {"mama", "papa", "brat", "sestra"};
-    vectorList<string> authors;
+    vectorList<book> Library;
+    book book1("abcd", "01.01.2001", "annotation", {"abd", "abd", "aac"}, 1);
+    book book2("adab", "02.02.2002", "annotation", {"dab", "dba", "caa"}, 1);
+    Library.add(book2);
+    Library.add(book1);
+    Library.showList();
+    Library.quickSort();
+    Library.mergeSort();
+    Library.insertionSort();
+    Library.showList();
+
+    /*vectorList<string> authorsWitcher;
+    vectorList<string> authorsThe_Hound_of_the_Baskervilles;
+    vectorList<string> nameOfCharacters;
+    vectorList<string> inWhichBooksMentioned;
+
     vectorList<book> library;
-    authors.add("abab");
-    authors.add("abac");
-    authors.add("abbc");
-    authors.add("abcd");
-    authors.quickSort();
-    authors.mergeSort();
-    authors.insertionSort();
-    book book1("Name", "11.03.2005", "Annotation",authorsNot , 200);
-    book book2("Name", "11.03.2005", "Annotation", authors.getVectorList() , 200);
+
+    authorsWitcher.add("abab");
+    authorsWitcher.add("abac");
+    authorsWitcher.add("abbc");
+    authorsWitcher.add("abcd");
+    authorsThe_Hound_of_the_Baskervilles.add("Arthur Conan Doyle");
+    authorsWitcher.quickSort();
+    authorsWitcher.mergeSort();
+    authorsWitcher.insertionSort();
+    book book1("Witcher", "11.03.2005", "Annotation", authorsWitcher.getVectorList(), 200);
+    book book2("Name", "11.03.2005", "Annotation", authorsWitcher.getVectorList(), 200);
+    book book3("The Hound of the Baskervilles", "25.03.1902", "Annotation",
+               authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
+    library.quickSort();
+    library.insertionSort();
+    library.mergeSort();
+
     library.add(book1);
     library.add(book2);
-    library.showList();
+    library.add(book3);
+    library.showList();*/
 
 
 
@@ -52,10 +93,10 @@ int main() {
     cout << "Enter the size of StringList: " << endl;
     cin >> sizeStringList;
 
-    nodeLIST<int> intList;
-    nodeLIST<double> doubleList;
-    nodeLIST<char> charList;
-    nodeLIST<string> stringList;
+    nodeList<int> intList;
+    nodeList<double> doubleList;
+    nodeList<char> charList;
+    nodeList<string> stringList;
 
 
     for (int i = 0; i < sizeIntList; i++) {

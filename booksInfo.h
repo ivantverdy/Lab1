@@ -6,7 +6,6 @@
 #define LABB1_BOOKSINFO_H
 
 #include <iostream>
-#include <vector>
 #include <string>
 #include "helper.h"
 
@@ -14,12 +13,15 @@ using namespace std;
 
 class characters;
 
+
 class book {
 private:
-    string nameOfBook, releaseDate, annotation;
-    vector<string> authorsName;
-    int numOfPages;
+    string nameOfBook{}, releaseDate{}, annotation{};
+    vector<string> authorsName{};
+    int numOfPages{};
 public:
+
+    book() = default;
 
     book(const string &nameOfBook1, const string &releaseDate1, const string &annotation1,
          const vector<string> &authorsName1, const int numOfPages1) {
@@ -28,7 +30,10 @@ public:
         annotation = annotation1;
         authorsName = authorsName1;
         numOfPages = numOfPages1;
+    }
 
+    void sortAuthorsName() {
+        sort(authorsName.begin(), authorsName.end());
     }
 
     string getNameOfBook() { return nameOfBook; }
@@ -43,10 +48,15 @@ public:
 
     friend class characters;
 
-    friend ostream &operator<<(ostream &out, vector<string>&);
+    friend ostream &operator<<(ostream &out, vector<string> &nameOfBook1);
 
-    friend ostream &operator<<(ostream &out,book &book1);
+    friend ostream &operator<<(ostream &out, book &book1);
 
+    bool operator<(book &book1);
+
+    bool operator<=(book &book1);
+
+    bool operator>(book &book1);
 };
 
 
@@ -65,5 +75,14 @@ public:
 
 };
 
+class series {
+private:
+    string seriesOfBooks;
+public:
+
+    void checkIfOneSeries(book &book1, book &book2) {
+
+    }
+};
 
 #endif //LABB1_BOOKSINFO_H

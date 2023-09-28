@@ -4,6 +4,7 @@
 
 #ifndef LABB1_NODELIST_H
 #define LABB1_NODELIST_H
+
 #include "helper.h"
 #include <iostream>
 
@@ -12,7 +13,7 @@ using namespace std;
 template<typename T>
 class node {
 private:
-    T value;
+    T value{};
     node<T> *next;
 public:
     node() {
@@ -38,7 +39,7 @@ public:
 };
 
 template<typename T>
-class nodeLIST {
+class nodeList {
 private:
     node<T> *head;
     node<T> *sorted;
@@ -217,7 +218,7 @@ private:
         }
     }
 
-    node<T> *find(node<T> * const pbeg, T d) {
+    node<T> *find(node<T> *const pbeg, T d) {
         node<T> *pv = pbeg;
         while (pv) {
             if (pv->data == d)
@@ -229,11 +230,11 @@ private:
 
 
 public:
-    nodeLIST() {
+    nodeList() {
         head = nullptr;
     }
 
-    void AddLastNode(T data) {
+    void add(T data) {
         auto *temp = new node<T>;
         temp->setValue(data);
         temp->setNext(nullptr);
@@ -247,18 +248,28 @@ public:
         }
     }
 
+    vector<T> getNodeList() {
+        vector<T> nodeList;
+        node<T> *temp = head;
+        while (temp != nullptr) {
+            nodeList.push_back(temp->getValue());
+            temp = temp->getNext();
+        }
+        return nodeList;
+    }
+
     bool insert(T key, T data) {
         if (node<T> *pkey = find(begin, key)) {
 
             node<T> *pv = new node<T>(data, pkey, pkey->next);
-            pkey->next = pv;  
+            pkey->next = pv;
             if (pkey != end)
                 (pv->next)->prev = pv;
             else
-                end = pv; 
+                end = pv;
             return true;
         }
-        return false;  
+        return false;
     }
 
     bool remove(T key) {
@@ -351,7 +362,7 @@ public:
     }
 
     // taken algorithm and code from this site and rebuild it for myself: https://www.geeksforgeeks.org/cpp-program-for-insertion-sort-in-a-singly-linked-list/
-    void insertionSort(){
+    void insertionSort() {
         void insertion();
     }
 
@@ -360,9 +371,9 @@ public:
         mergeSortPrivate(&head);
     }
 
-    friend ostream &operator<<(ostream &out, vector<T>);
+    friend ostream &operator<<(ostream &out, vector<T> &vectorOut);
 
-    ~nodeLIST() {
+    ~nodeList() {
         while (head != nullptr) {
             node<T> *temp = head;
             head = head->getNext();

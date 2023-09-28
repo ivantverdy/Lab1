@@ -6,8 +6,6 @@
 #define LABB1_VECTORLIST_H
 
 #include "helper.h"
-#include <iostream>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
@@ -15,7 +13,8 @@ using namespace std;
 template<typename T>
 class vectorList {
 private:
-    vector<T> vec;
+    vector<T> vec{};
+
 
     void merge(int left, int middle, int right) {
         int subVectorOne = middle - left + 1;
@@ -63,6 +62,8 @@ private:
 
 public:
 
+    vectorList() = default;
+
     void showList() {
         for (int i = 0; i < vec.size(); i++) {
             //cout << " Data in node " << i+1 << " = " << vec[i] << endl;
@@ -70,7 +71,7 @@ public:
         }
     }
 
-    vector<T> getVectorList(){
+    vector<T> getVectorList() {
         return vec;
     }
 
@@ -110,7 +111,9 @@ public:
         mergeSort(0, vec.size() - 1);
     }
 
-    friend ostream &operator<<(ostream &out, vector<T>);
+    friend ostream &operator<<(ostream &out, vector<T> &vectorOut);
+
 };
+
 
 #endif //LABB1_VECTORLIST_H
