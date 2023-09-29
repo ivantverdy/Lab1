@@ -65,10 +65,7 @@ public:
     vectorList() = default;
 
     void showList() {
-        for (int i = 0; i < vec.size(); i++) {
-            //cout << " Data in node " << i+1 << " = " << vec[i] << endl;
-            cout << vec[i] << endl;
-        }
+        cout << vec;
     }
 
     vector<T> getVectorList() {

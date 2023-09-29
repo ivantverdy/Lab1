@@ -33,7 +33,7 @@ int main() {
     mt19937 mt(rd());
     uniform_real_distribution<double> dist(1.0, 1000.0);
 
-    menu();
+    //menu();
 
     string fileName;
     int actons;
@@ -96,7 +96,7 @@ int main() {
     bookSeriesWitcher.addBookToSeries(book1);
 
 
-
+    bookSeriesWitcher.sortByReleaseDate();
 
     library.add(book1);
     library.add(book2);
@@ -104,8 +104,8 @@ int main() {
     library.add(book4);
     library.add(book5);
 
-
-    library.showList();
+    bookSeriesWitcher.show();
+    //library.showList();
 
 
 

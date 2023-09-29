@@ -124,30 +124,32 @@ private:
 
 public:
 
+    void show(){
+        cout << "SERIESOFBOOK SIZE " << seriesOfBooks.size() << endl;
+        for(auto & seriesOfBook : seriesOfBooks) {
+            cout << seriesOfBook;
+        }
+    }
+
     void addBookToSeries(book &book1) {
         if (checkIfBookInSeriesAlready(seriesOfBooks)) {
-            cout << "This book is already in series! ";
+            cout << book1.getNameOfBook() << ": this book is already in series! " << endl;
         } else {
             seriesOfBooks.push_back(book1);
         }
     }
 
-    void sortByReleaseDate(vector<book> &series) {
-        sort(series.begin(), series.end(), sortByReleaseDate);
+    void sortByReleaseDate() {
+        sort(this->seriesOfBooks.begin(), this->seriesOfBooks.end(), comparatorToSortByReleaseDate);
     }
 
-    bool operator<(vector<book> &series);
-
-    bool operator<=(vector<book> &series);
-
-    bool operator>(vector<book> &series);
-
-    bool operator>=(vector<book> &series);
-
-    static bool sortByReleaseDate(book &book1, book &book2) {
+    static bool comparatorToSortByReleaseDate(book &book1, book &book2) {
         return book1.getReleaseDate() < book2.getReleaseDate();
     }
 
+    template<typename T>
+    friend ostream &operator<<(ostream &out, vector<T> &vectorOut);
+    friend ostream &operator<<(ostream &out, book &book1);
 };
 
 
