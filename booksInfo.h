@@ -38,7 +38,7 @@ public:
         sort(authorsName.begin(), authorsName.end());
     }
 
-    void setCharacters(vector<string> characters1){
+    void setCharacters(vector<character> &characters1){
         characters = characters1;
     }
 
@@ -73,8 +73,6 @@ public:
     bool operator>=(book &book1);
 
     bool operator==(book &book1);
-
-
 };
 
 
