@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <string>
 #include "booksInfo.h"
 #include <utility>
@@ -48,6 +49,22 @@ bool book::operator>=(book &book1) {
 
 bool book::operator==(book &book1) {
     return this->getNameOfBook() == book1.getNameOfBook();
+}
+
+bool series::operator<(vector<book> &series) {
+    return this->< ;
+}
+
+bool series::operator<=(vector<book> &series) {
+    return this->getNameOfBook() <= book1.getNameOfBook();
+}
+
+bool series::operator>(vector<book> &series) {
+    return this->getNameOfBook() > book1.getNameOfBook();
+}
+
+bool series::operator>=(vector<book> &series) {
+    return this->getNameOfBook() >= book1.getNameOfBook();
 }
 
 #endif //LABB1_HELPER_H

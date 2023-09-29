@@ -38,7 +38,7 @@ public:
         sort(authorsName.begin(), authorsName.end());
     }
 
-    void setCharacters(vector<character> &characters1){
+    void setCharacters(vector<character> &characters1) {
         characters = characters1;
     }
 
@@ -46,7 +46,7 @@ public:
         return characters;
     }
 
-    void addCharacter(character& newCharacter) {
+    void addCharacter(character &newCharacter) {
         characters.push_back(newCharacter);
     }
 
@@ -111,7 +111,7 @@ private:
         return false;
     }
 
-    bool checkIfBookInOneSeries(vector<book> &series) {
+    bool checkIfBookInSeriesAlready(vector<book> &series) {
         for (int i = 0; i < series.size(); i++) {
             for (int j = 0; j < series.size() + 1; j++) {
                 if (checkIfBookInSeries(series[i], series[j])) {
@@ -121,14 +121,31 @@ private:
         }
         return false;
     }
+
 public:
 
     void addBookToSeries(book &book1) {
-        if (checkIfBookInOneSeries(this->seriesOfBooks)) {
+        if (checkIfBookInSeriesAlready(seriesOfBooks)) {
             cout << "This book is already in series! ";
         } else {
             seriesOfBooks.push_back(book1);
         }
+    }
+
+    void sortByReleaseDate(vector<book> &series) {
+        sort(series.begin(), series.end(), sortByReleaseDate);
+    }
+
+    bool operator<(vector<book> &series);
+
+    bool operator<=(vector<book> &series);
+
+    bool operator>(vector<book> &series);
+
+    bool operator>=(vector<book> &series);
+
+    static bool sortByReleaseDate(book &book1, book &book2) {
+        return book1.getReleaseDate() < book2.getReleaseDate();
     }
 
 };

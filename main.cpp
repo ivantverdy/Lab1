@@ -59,7 +59,7 @@ int main() {
     vectorList<string> authorsThe_Hound_of_the_Baskervilles;
     vectorList<string> authorsAbab;
 
-    series bookSeries;
+    series bookSeriesWitcher;
 
     authorsWitcher.add("andrzej sapkowski");
     authorsWitcher.add("may be me ;)");
@@ -74,21 +74,27 @@ int main() {
     book book4("The Last Wish", "1993", "Annotation", authorsWitcher.getVectorList(), 200);
     book book5("Blood of Elves", "1994", "Annotation", authorsWitcher.getVectorList(), 200);
 
-    character character1("Geralt", "Main");
+    character character1("Geralt", "main");
     character character2("Yennefer", "secondary");
     character character3("Sherlock Holmes", "main");
     character character4("John Watson", "secondary");
 
     book1.addCharacter(character1);
+    book1.addCharacter(character2);
+    book4.addCharacter(character1);
+    book4.addCharacter(character2);
+    book5.addCharacter(character1);
+    book5.addCharacter(character2);
 
     library.quickSort();
     library.insertionSort();
     library.mergeSort();
-    bookSeries.addBookToSeries(book1);
-    bookSeries.addBookToSeries(book1);
-    bookSeries.addBookToSeries(book4);
-    bookSeries.addBookToSeries(book5);
-    bookSeries.addBookToSeries(book1);
+    bookSeriesWitcher.addBookToSeries(book1);
+    bookSeriesWitcher.addBookToSeries(book1);
+    bookSeriesWitcher.addBookToSeries(book4);
+    bookSeriesWitcher.addBookToSeries(book5);
+    bookSeriesWitcher.addBookToSeries(book1);
+
 
 
 
