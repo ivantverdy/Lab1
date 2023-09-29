@@ -261,7 +261,7 @@ public:
     bool insert(T key, T data) {
         if (node<T> *pkey = find(begin, key)) {
 
-            node<T> *pv = new node<T>(data, pkey, pkey->next);
+            auto *pv = new node<T>(data, pkey, pkey->next);
             pkey->next = pv;
             if (pkey != end)
                 (pv->next)->prev = pv;

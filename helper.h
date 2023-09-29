@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include "booksInfo.h"
+#include <utility>
 
 using namespace std;
 
@@ -39,6 +40,14 @@ bool book::operator<=(book &book1) {
 
 bool book::operator>(book &book1) {
     return this->getNameOfBook() > book1.getNameOfBook();
+}
+
+bool book::operator>=(book &book1) {
+    return this->getNameOfBook() >= book1.getNameOfBook();
+}
+
+bool book::operator==(book &book1) {
+    return this->getNameOfBook() == book1.getNameOfBook();
 }
 
 #endif //LABB1_HELPER_H

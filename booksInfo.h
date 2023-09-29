@@ -11,14 +11,16 @@
 
 using namespace std;
 
-class characters;
+class series;
 
+class character;
 
 class book {
 private:
     string nameOfBook{}, releaseDate{}, annotation{};
     vector<string> authorsName{};
     int numOfPages{};
+    vector<character> characters;
 public:
 
     book() = default;
@@ -36,6 +38,18 @@ public:
         sort(authorsName.begin(), authorsName.end());
     }
 
+    void setCharacters(vector<string> characters1){
+        characters = characters1;
+    }
+
+    vector<character> getCharacters() {
+        return characters;
+    }
+
+    void addCharacter(character& newCharacter) {
+        characters.push_back(newCharacter);
+    }
+
     string getNameOfBook() { return nameOfBook; }
 
     string getReleaseDate() { return releaseDate; }
@@ -46,8 +60,6 @@ public:
 
     int getNumOfPages() { return numOfPages; }
 
-    friend class characters;
-
     friend ostream &operator<<(ostream &out, vector<string> &nameOfBook1);
 
     friend ostream &operator<<(ostream &out, book &book1);
@@ -57,32 +69,71 @@ public:
     bool operator<=(book &book1);
 
     bool operator>(book &book1);
+
+    bool operator>=(book &book1);
+
+    bool operator==(book &book1);
+
+
 };
 
 
-class characters {
+class character {
 private:
-    vector<string> nameOfTheCharacters;
-    vector<string> inWhichBooksMentioned;
+    string nameOfTheCharacter;
     string participation; // main, secondary, etc
 public:
+    character(const string &nameOfTheCharacter1, const string &participation1) {
+        nameOfTheCharacter = nameOfTheCharacter1;
+        participation = participation1;
+    }
 
-    vector<string> getNameOfTheCharacters() { return nameOfTheCharacters; }
-
-    vector<string> getInWhichBooksMentioned() { return inWhichBooksMentioned; }
+    string getNameOfTheCharacters() { return nameOfTheCharacter; }
 
     string getParticipation() { return participation; }
 
 };
 
+//дві книги належать до однієї серії, якщо у них є спільний головний чи другорядний персонаж
+
 class series {
 private:
-    string seriesOfBooks;
+    vector<book> seriesOfBooks{};
+
+    bool checkIfBookInSeries(book &book1, book &book2) {
+        for (auto &i: book1.getCharacters()) {
+            for (auto &j: book2.getCharacters()) {
+                if (i.getNameOfTheCharacters() == j.getNameOfTheCharacters() and
+                    (i.getParticipation() == "main" or i.getParticipation() == "secondary")
+                    and (j.getParticipation() == "main" or j.getParticipation() == "secondary")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool checkIfBookInOneSeries(vector<book> &series) {
+        for (int i = 0; i < series.size(); i++) {
+            for (int j = 0; j < series.size() + 1; j++) {
+                if (checkIfBookInSeries(series[i], series[j])) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 public:
 
-    void checkIfOneSeries(book &book1, book &book2) {
-
+    void addBookToSeries(book &book1) {
+        if (checkIfBookInOneSeries(this->seriesOfBooks)) {
+            cout << "This book is already in series! ";
+        } else {
+            seriesOfBooks.push_back(book1);
+        }
     }
+
 };
+
 
 #endif //LABB1_BOOKSINFO_H

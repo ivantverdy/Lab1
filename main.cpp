@@ -12,7 +12,7 @@ using namespace std;
 
 int menuMovement;
 
-/*void menu(){
+void menu(){
     cout << "Choose option: " << endl;
     cout << "Close program: 1" << endl;
     cout << "Write down data: 2" << endl;
@@ -23,13 +23,9 @@ int menuMovement;
     cout << "Save data: 7" << endl;
     cout << "Your choice: ";
     cin >> menuMovement;
-}*/
+}
 
 int main() {
-
-    //menu();
-
-    string fileName;
 
     srand(time(nullptr));
 
@@ -37,45 +33,71 @@ int main() {
     mt19937 mt(rd());
     uniform_real_distribution<double> dist(1.0, 1000.0);
 
+    menu();
 
+    string fileName;
+    int actons;
+
+    /*series bookSeries;
     vectorList<book> Library;
     book book1("abcd", "01.01.2001", "annotation", {"abd", "abd", "aac"}, 1);
     book book2("adab", "02.02.2002", "annotation", {"dab", "dba", "caa"}, 1);
+    book1.getNameOfBook();
     Library.add(book2);
     Library.add(book1);
     Library.showList();
     Library.quickSort();
     Library.mergeSort();
     Library.insertionSort();
-    Library.showList();
+    Library.showList();*/
 
-    /*vectorList<string> authorsWitcher;
-    vectorList<string> authorsThe_Hound_of_the_Baskervilles;
-    vectorList<string> nameOfCharacters;
-    vectorList<string> inWhichBooksMentioned;
 
     vectorList<book> library;
 
-    authorsWitcher.add("abab");
-    authorsWitcher.add("abac");
-    authorsWitcher.add("abbc");
-    authorsWitcher.add("abcd");
+    // Create authors for books
+    vectorList<string> authorsWitcher;
+    vectorList<string> authorsThe_Hound_of_the_Baskervilles;
+    vectorList<string> authorsAbab;
+
+    authorsWitcher.add("andrzej sapkowski");
+    authorsWitcher.add("may be me ;)");
     authorsThe_Hound_of_the_Baskervilles.add("Arthur Conan Doyle");
-    authorsWitcher.quickSort();
-    authorsWitcher.mergeSort();
-    authorsWitcher.insertionSort();
-    book book1("Witcher", "11.03.2005", "Annotation", authorsWitcher.getVectorList(), 200);
-    book book2("Name", "11.03.2005", "Annotation", authorsWitcher.getVectorList(), 200);
-    book book3("The Hound of the Baskervilles", "25.03.1902", "Annotation",
-               authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
+    authorsAbab.add("abab");
+    authorsAbab.add("abac");
+    authorsAbab.add("dabc");
+
+    book book1("Sword of Destiny", "1992", "Annotation", authorsWitcher.getVectorList(), 200);
+    book book2("Name", "11.03.2005", "Annotation", authorsAbab.getVectorList(), 200);
+    book book3("The Hound of the Baskervilles", "25.03.1902", "Annotation",authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
+    book book4("The Last Wish", "1993", "Annotation", authorsWitcher.getVectorList(), 200);
+    book book5("Blood of Elves", "1994", "Annotation", authorsWitcher.getVectorList(), 200);
+
+    character character1("Geralt", "Main");
+    character character2("Yennefer", "secondary");
+    character character3("Sherlock Holmes", "main");
+    character character4("John Watson", "secondary");
+
+    book1.addCharacter(character1);
+
     library.quickSort();
     library.insertionSort();
     library.mergeSort();
+    bookSeries.addBookToSeries(book1);
+    bookSeries.addBookToSeries(book1);
+    bookSeries.addBookToSeries(book4);
+    bookSeries.addBookToSeries(book5);
+    bookSeries.addBookToSeries(book1);
+
+
 
     library.add(book1);
     library.add(book2);
     library.add(book3);
-    library.showList();*/
+    library.add(book4);
+    library.add(book5);
+
+
+    library.showList();
 
 
 
