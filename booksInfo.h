@@ -8,12 +8,14 @@
 #include <iostream>
 #include <string>
 #include "helper.h"
+#include "vectorList.h"
 
 using namespace std;
 
-class series;
 
+class series;
 class character;
+
 
 class book {
 private:
@@ -98,41 +100,44 @@ class series {
 private:
     vector<book> seriesOfBooks{};
 
-    bool checkIfBookInSeries(book &book1, book &book2) {
-        for (auto &i: book1.getCharacters()) {
-            for (auto &j: book2.getCharacters()) {
-                if (i.getNameOfTheCharacters() == j.getNameOfTheCharacters() and
-                    (i.getParticipation() == "main" or i.getParticipation() == "secondary")
-                    and (j.getParticipation() == "main" or j.getParticipation() == "secondary")) {
-                    return true;
+    bool checkToAddBook(book &book1) {
+        for (auto &seriesIter: seriesOfBooks) {
+            for (auto &i: seriesIter.getCharacters()) {
+                for (auto &j: book1.getCharacters()) {
+                    if (i.getNameOfTheCharacters() == j.getNameOfTheCharacters() and
+                        ((i.getParticipation() == "main" or i.getParticipation() == "secondary") and
+                         (j.getParticipation() == "main" or j.getParticipation() == "secondary"))) {
+                        return false;
+                    }
                 }
             }
         }
-        return false;
+        return true;
     }
 
-    bool checkIfBookInSeriesAlready(vector<book> &series) {
-        for (int i = 0; i < series.size(); i++) {
-            for (int j = 0; j < series.size() + 1; j++) {
-                if (checkIfBookInSeries(series[i], series[j])) {
+    bool checkIfBookInSeriesAlready(book &book1) {
+        for (auto &seriesOfBook: seriesOfBooks) {
+            {
+                if (seriesOfBook == book1)
                     return true;
-                }
             }
         }
-        return false;
+        return checkToAddBook(book1);
     }
 
 public:
 
-    void show(){
+    void show() {
         cout << "SERIESOFBOOK SIZE " << seriesOfBooks.size() << endl;
-        for(auto & seriesOfBook : seriesOfBooks) {
+        for (auto &seriesOfBook: seriesOfBooks) {
             cout << seriesOfBook;
         }
     }
 
     void addBookToSeries(book &book1) {
-        if (checkIfBookInSeriesAlready(seriesOfBooks)) {
+        if (seriesOfBooks.size()<1) { seriesOfBooks.push_back(book1); }
+
+        else if (checkIfBookInSeriesAlready(book1)) {
             cout << book1.getNameOfBook() << ": this book is already in series! " << endl;
         } else {
             seriesOfBooks.push_back(book1);
@@ -149,7 +154,16 @@ public:
 
     template<typename T>
     friend ostream &operator<<(ostream &out, vector<T> &vectorOut);
+
     friend ostream &operator<<(ostream &out, book &book1);
+};
+
+class library : public book, public series{
+private:
+    vectorList<book> library;
+    vectorList<book> series;
+public:
+
 };
 
 

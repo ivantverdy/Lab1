@@ -48,9 +48,9 @@ bool book::operator>=(book &book1) {
 }
 
 bool book::operator==(book &book1) {
-    return this->getNameOfBook() == book1.getNameOfBook();
+    return this->getNameOfBook() == book1.getNameOfBook() and this->getReleaseDate() == book1.getReleaseDate()
+           and this->getAuthorsName() == book1.getAuthorsName() and this->getNumOfPages() == book1.getNumOfPages();
 }
-
 
 
 #endif //LABB1_HELPER_H
