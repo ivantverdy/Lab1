@@ -59,6 +59,8 @@ int main() {
     vectorList<string> authorsThe_Hound_of_the_Baskervilles;
     vectorList<string> authorsAbab;
 
+    series bookSeries;
+
     authorsWitcher.add("andrzej sapkowski");
     authorsWitcher.add("may be me ;)");
     authorsThe_Hound_of_the_Baskervilles.add("Arthur Conan Doyle");
@@ -67,8 +69,8 @@ int main() {
     authorsAbab.add("dabc");
 
     book book1("Sword of Destiny", "1992", "Annotation", authorsWitcher.getVectorList(), 200);
-    book book2("Name", "11.03.2005", "Annotation", authorsAbab.getVectorList(), 200);
-    book book3("The Hound of the Baskervilles", "25.03.1902", "Annotation",authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
+    book book2("Name", "2020", "Annotation", authorsAbab.getVectorList(), 200);
+    book book3("The Hound of the Baskervilles", "1902", "Annotation",authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
     book book4("The Last Wish", "1993", "Annotation", authorsWitcher.getVectorList(), 200);
     book book5("Blood of Elves", "1994", "Annotation", authorsWitcher.getVectorList(), 200);
 
