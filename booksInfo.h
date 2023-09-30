@@ -24,18 +24,19 @@ private:
     string nameOfBook{}, releaseDate{}, annotation{};
     vectorList<string> authorsName{};
     int numOfPages{};
-    vectorList<character> characters;
+    vectorList<character> characters{};
 public:
 
     book() = default;
 
     book(const string &nameOfBook1, const string &releaseDate1, const string &annotation1,
-         const vectorList<string> &authorsName1, const int numOfPages1, const vectorList<character> &characters) {
+         const vectorList<string> &authorsName1, const int numOfPages1, const vectorList<character> &characters1) {
         nameOfBook = nameOfBook1;
         releaseDate = releaseDate1;
         annotation = annotation1;
         authorsName = authorsName1;
         numOfPages = numOfPages1;
+        characters = characters1;
     }
 
     vectorList<character> getCharacters() {
@@ -76,9 +77,8 @@ public:
         numOfPages = numOfPages1;
     }
 
-    friend ostream &operator<<(ostream &out, vector<string> &nameOfBook1);
-
-    friend ostream &operator<<(ostream &out, book &book1);
+    template<class T>
+    friend ostream &operator<<(ostream &out, vectorList<T> &nameOfBook1);
 
     friend ostream &operator<<(ostream &out, book &book1);
 
@@ -119,7 +119,7 @@ public:
         participation = participation1;
     }
 
-    friend ostream& operator<<(ostream &out, character &character1);
+    friend ostream &operator<<(ostream &out, character &character1);
 
 };
 
@@ -129,9 +129,11 @@ class series {
 private:
     vectorList<book> seriesOfBooks{};
 
+
+    //seriesOfBookIter.getCharacters().getVectorList() need to get vector of characters from vectorList<character> characters
     bool checkToAddBook(book &book1) {
-        for (auto &seriesOfBook: seriesOfBooks.getVectorList()) {
-            for (auto &characterIter: seriesOfBook.getCharacters().getVectorList()) {
+        for (auto &seriesOfBookIter: seriesOfBooks.getVectorList()) {
+            for (auto &characterIter: seriesOfBookIter.getCharacters().getVectorList()) {
                 for (auto &j: book1.getCharacters().getVectorList()) {
                     if (characterIter.getCharacterName() == j.getCharacterName() and
                         ((characterIter.getParticipation() == "main" or
@@ -190,13 +192,10 @@ public:
         return book1.getReleaseDate() < book2.getReleaseDate();
     }
 
-    template<typename T>
-    friend ostream &operator<<(ostream &out, vector<T> &vectorOut);
-
     friend ostream &operator<<(ostream &out, book &book1);
 };
 
-class database  {
+class database {
 private:
     vectorList<book> library;
     series bookSeries;
@@ -215,21 +214,19 @@ public:
     }
 
     void editBook(string &bookName, book &updatedBook) {
-        for (auto &bookInLibrary : library.getVectorList()) {
+        for (auto &bookInLibrary: library.getVectorList()) {
             if (bookInLibrary.getNameOfBook() == bookName) {
                 bookInLibrary = updatedBook;
-                library.quickSort();
                 break;
             }
         }
+        library.quickSort();
         cout << "Book with the name " << bookName << " isn't found" << endl;
     }
 
     void deleteBook(string &bookName) {
-        for(auto & bookInLibrary : library.getVectorList() )
-        {
-            if(bookInLibrary.getNameOfBook() == bookName)
-            {
+        for (auto &bookInLibrary: library.getVectorList()) {
+            if (bookInLibrary.getNameOfBook() == bookName) {
                 library.remove(bookInLibrary);
             }
         }
@@ -238,25 +235,71 @@ public:
     }
 
     book searchBook(string &bookName) {
-        for(auto & bookInLibrary : library.getVectorList()){
-            if(bookInLibrary.getNameOfBook()==bookName)
+        for (auto &bookInLibrary: library.getVectorList()) {
+            if (bookInLibrary.getNameOfBook() == bookName)
                 return bookInLibrary;
         }
         cout << "Book with the name " << bookName << " isn't found" << endl;
     }
 
+    void showLibrary() {
+        for (auto &bookInLibrary: library.getVectorList()) {
+                cout << bookInLibrary;
+                }
+        }
 
-    void displayLibrary() {
-
-    }
-
-    void showCharacters() {
-
-    }
-
-    void showSeries(){
+    void showSeries() {
         bookSeries.show();
     }
+
+    void addAuthor(vectorList<string> &authorsName, string &bookName) {
+        for (auto &bookInLibrary: library.getVectorList()) {
+            for (int i = 0; i < library.getVectorList().size(); i++) {
+                if (bookInLibrary.getNameOfBook() == bookName) {
+                    bookInLibrary.setAuthorsName(authorsName);
+                    break;
+                }
+            }
+        }
+    }
+
+    void editAuthor(string &oldAuthor, string &newAuthor) {
+        for (auto &bookInLibrary: library.getVectorList()) {
+            for (int i = 0; i < library.getVectorList().size(); i++) {
+                if (bookInLibrary.getVectorOfAuthorsName().getVectorList()[i] == oldAuthor) {
+                    oldAuthor = newAuthor;
+                    break;
+                }
+            }
+        }
+        library.quickSort();
+        cout << "Book with the name " << oldAuthor << " isn't found" << endl;
+    }
+
+    //bookInLibrary.getVectorOfAuthorsName().getVectorList() need to get vector of authors from vectorList<string> authors
+    void deleteAuthor(string &authorName) {
+        for (auto &bookInLibrary: library.getVectorList()) {
+            for (int i = 0; i < library.getVectorList().size(); i++) {
+                if (bookInLibrary.getVectorOfAuthorsName().getVectorList()[i] == authorName) {
+                    library.remove(bookInLibrary);
+                }
+            }
+        }
+        library.quickSort();
+        cout << "Book with the name " << authorName << " isn't found" << endl;
+    }
+
+    string searchAuthor(string &authorName) {
+        for (auto &bookInLibrary: library.getVectorList()) {
+            for (int i = 0; i < library.getVectorList().size(); i++) {
+                if (bookInLibrary.getVectorOfAuthorsName().getVectorList()[i] == authorName) {
+                    return bookInLibrary.getVectorOfAuthorsName().getVectorList()[i];
+                }
+            }
+        }
+        cout << "Book with the name " << authorName << " isn't found" << endl;
+    }
+
 };
 
 

@@ -76,8 +76,12 @@ public:
         vec.push_back(data);
     }
 
-    void remove(T key) {
-        vec.erase(find(vec.begin(), vec.end(), key));
+    void remove(T &key) {
+        for (size_t i = 0; i < vec.size(); i++) {
+            if (vec[i] == key) {
+                vec.erase(vec.begin()+i);
+            }
+        }
     }
 
     void removeLast() {
@@ -113,7 +117,7 @@ public:
     }
 
     friend ostream &operator<<(ostream &out, vector<T> &vectorOut);
-
+    friend ostream &operator<<(ostream &out, vectorList<T> &vectorOut);
 };
 
 

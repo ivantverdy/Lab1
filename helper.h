@@ -30,12 +30,10 @@ ostream &operator<<(ostream &out, vectorList<T> &vectorOut) {
     return out;
 }
 
-
 ostream &operator<<(ostream &out, character &character1){
     cout <<"Name of character: "<< character1.getCharacterName() << "; Level of participation: " <<character1.getParticipation();
     return out;
 }
-
 
 ostream &operator<<(ostream &out, book &book1) {
     out << "Name of book: " << book1.nameOfBook << "\n";

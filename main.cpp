@@ -38,88 +38,46 @@ int main() {
     string fileName;
     int actons;
 
-    /*series bookSeries;
-    vectorList<book> Library;
-    book book1("abcd", "01.01.2001", "annotation", {"abd", "abd", "aac"}, 1);
-    book book2("adab", "02.02.2002", "annotation", {"dab", "dba", "caa"}, 1);
-    book1.getNameOfBook();
-    Library.add(book2);
-    Library.add(book1);
-    Library.showList();
-    Library.quickSort();
-    Library.mergeSort();
-    Library.insertionSort();
-    Library.showList();*/
-
-    book book1("Sword of Destiny", "1992", "Annotation", authorsWitcher.getVectorList(), 200);
-    book book2("Name", "2020", "Annotation", authorsAbab.getVectorList(), 200);
-    book book3("The Hound of the Baskervilles", "1902", "Annotation",authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
-    book book4("The Last Wish", "1993", "Annotation", authorsWitcher.getVectorList(), 200);
-    book book5("Blood of Elves", "1994", "Annotation", authorsWitcher.getVectorList(), 200);
-
-    authorsWitcher.add("andrzej sapkowski");
-    authorsWitcher.add("may be me ;)");
-    authorsThe_Hound_of_the_Baskervilles.add("Arthur Conan Doyle");
-    authorsAbab.add("abab");
-    authorsAbab.add("abac");
-    authorsAbab.add("dabc");
-
     character character1("Geralt", "main");
     character character2("Yennefer", "secondary");
-    character character3("Sherlock Holmes", "main");
-    character character4("John Watson", "secondary");
+    character character3("Lutic", "secondary");
+    character character4("Sherlock Holmes", "main");
+    character character5("John Watson", "secondary");
 
-    vectorList<book> library;
-
-    // Create authors for books
+    //witcher book:
     vectorList<string> authorsWitcher;
-    vectorList<string> authorsThe_Hound_of_the_Baskervilles;
-    vectorList<string> authorsAbab;
-    vectorList<character> book1Characters;
-    series bookSeriesWitcher;
-
     authorsWitcher.add("andrzej sapkowski");
-    authorsWitcher.add("may be me ;)");
-    authorsThe_Hound_of_the_Baskervilles.add("Arthur Conan Doyle");
-    authorsAbab.add("abab");
-    authorsAbab.add("abac");
-    authorsAbab.add("dabc");
+    authorsWitcher.add("may be me 123 check");
+    authorsWitcher.add("542351 check");
+
+    vectorList<character> charactersWitcher;
+    charactersWitcher.add(character1);
+    charactersWitcher.add(character2);
+    charactersWitcher.add(character3);
+
+    //Baskervilles book:
+    vectorList<string> authorsBaskervilles;
+    authorsWitcher.add("Arthur Conan Doyle");
+
+    vectorList<character> charactersBaskervilles;
+    charactersWitcher.add(character4);
+    charactersWitcher.add(character5);
+
+
+    book book1("Sword of Destiny", "1992", "Annotation",authorsWitcher , 200, charactersWitcher);
+    book book2("The Last Wish", "1993", "Annotation", authorsWitcher, 200, charactersWitcher);
+    book book3("The Hound of the Baskervilles", "1902", "Annotation",authorsBaskervilles, 226, charactersBaskervilles);
+    book book4("Blood of Elves", "1994", "Annotation", authorsWitcher, 200,charactersWitcher);
 
 
 
-    character character1("Geralt", "main");
-    character character2("Yennefer", "secondary");
-    character character3("Sherlock Holmes", "main");
-    character character4("John Watson", "secondary");
-
-    book1Characters.add(character1);
-    book1Characters.add(character2);
-    book1.setCharacters(book1Characters);
-    book1.
-
-    library.quickSort();
-    library.insertionSort();
-    library.mergeSort();
-    bookSeriesWitcher.addBookToSeries(book1);
-    bookSeriesWitcher.addBookToSeries(book1);
-    bookSeriesWitcher.addBookToSeries(book4);
-    bookSeriesWitcher.addBookToSeries(book5);
-    bookSeriesWitcher.addBookToSeries(book1);
-
-
-    bookSeriesWitcher.sortByReleaseDate();
-
-    library.add(book1);
-    library.add(book2);
-    library.add(book3);
-    library.add(book4);
-    library.add(book5);
-
-    bookSeriesWitcher.show();
-    //library.showList();
-
-
-
+    database LIBRARY_OF_BOOKS;
+    LIBRARY_OF_BOOKS.addBook(book1);
+    LIBRARY_OF_BOOKS.addBook(book2);
+    LIBRARY_OF_BOOKS.addBook(book3);
+    LIBRARY_OF_BOOKS.addBook(book4);
+    //LIBRARY_OF_BOOKS.showSeries();
+    //LIBRARY_OF_BOOKS.showLibrary();
 /*
     int sizeIntList, sizeCharList, sizeStringList = 0;
     double sizeDoubleList = 0.0;
