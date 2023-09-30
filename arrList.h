@@ -118,20 +118,20 @@ public:
         capacity = INITIAL_CAPACITY;
     }
 
+    size_t getSize() {
+        return size;
+    }
+
+    T* getArrayList(){
+        return array;
+    }
+
     void add(T data) {
         if (size == capacity) {
             grow_capacity();
         }
         array[size] = data;
         size++;
-    }
-
-    vector<T> getArrayList() {
-        vector<T> arrList;
-        for (int i = 0; i < size; i++) {
-            arrList.push_back(array[i]);
-        }
-        return arrList;
     }
 
     bool insert(T key, T data) {

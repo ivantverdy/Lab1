@@ -92,6 +92,10 @@ public:
         sort(vec.begin(), vec.end());
     }
 
+    size_t getSize(){
+        return vec.size();
+    }
+
     void insertionSort() {
         for (int i = 1; i < vec.size(); i++) {
             T key = vec[i];

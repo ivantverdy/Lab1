@@ -51,6 +51,23 @@ int main() {
     Library.insertionSort();
     Library.showList();*/
 
+    book book1("Sword of Destiny", "1992", "Annotation", authorsWitcher.getVectorList(), 200);
+    book book2("Name", "2020", "Annotation", authorsAbab.getVectorList(), 200);
+    book book3("The Hound of the Baskervilles", "1902", "Annotation",authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
+    book book4("The Last Wish", "1993", "Annotation", authorsWitcher.getVectorList(), 200);
+    book book5("Blood of Elves", "1994", "Annotation", authorsWitcher.getVectorList(), 200);
+
+    authorsWitcher.add("andrzej sapkowski");
+    authorsWitcher.add("may be me ;)");
+    authorsThe_Hound_of_the_Baskervilles.add("Arthur Conan Doyle");
+    authorsAbab.add("abab");
+    authorsAbab.add("abac");
+    authorsAbab.add("dabc");
+
+    character character1("Geralt", "main");
+    character character2("Yennefer", "secondary");
+    character character3("Sherlock Holmes", "main");
+    character character4("John Watson", "secondary");
 
     vectorList<book> library;
 
@@ -58,7 +75,7 @@ int main() {
     vectorList<string> authorsWitcher;
     vectorList<string> authorsThe_Hound_of_the_Baskervilles;
     vectorList<string> authorsAbab;
-
+    vectorList<character> book1Characters;
     series bookSeriesWitcher;
 
     authorsWitcher.add("andrzej sapkowski");
@@ -68,23 +85,17 @@ int main() {
     authorsAbab.add("abac");
     authorsAbab.add("dabc");
 
-    book book1("Sword of Destiny", "1992", "Annotation", authorsWitcher.getVectorList(), 200);
-    book book2("Name", "2020", "Annotation", authorsAbab.getVectorList(), 200);
-    book book3("The Hound of the Baskervilles", "1902", "Annotation",authorsThe_Hound_of_the_Baskervilles.getVectorList(), 226);
-    book book4("The Last Wish", "1993", "Annotation", authorsWitcher.getVectorList(), 200);
-    book book5("Blood of Elves", "1994", "Annotation", authorsWitcher.getVectorList(), 200);
+
 
     character character1("Geralt", "main");
     character character2("Yennefer", "secondary");
     character character3("Sherlock Holmes", "main");
     character character4("John Watson", "secondary");
 
-    book1.addCharacter(character1);
-    book1.addCharacter(character2);
-    book4.addCharacter(character1);
-    book4.addCharacter(character2);
-    book5.addCharacter(character1);
-    book5.addCharacter(character2);
+    book1Characters.add(character1);
+    book1Characters.add(character2);
+    book1.setCharacters(book1Characters);
+    book1.
 
     library.quickSort();
     library.insertionSort();

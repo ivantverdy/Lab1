@@ -22,6 +22,15 @@ ostream &operator<<(ostream &out, vector<T> &vectorOut) {
     return out;
 }
 
+ostream &operator<<(ostream &out, character &character1){
+    cout <<"Name of character: "<< character1.getCharacterName() << "; Level of participation: " <<character1.getParticipation();
+    return out;
+}
+
+ostream &operator<<(ostream &out, book &book1){
+    cout <<
+}
+
 ostream &operator<<(ostream &out, book &book1) {
     out << "Name of book: " << book1.nameOfBook << "\n";
     out << "Release date: " << book1.releaseDate << "\n";
@@ -32,19 +41,23 @@ ostream &operator<<(ostream &out, book &book1) {
 }
 
 bool book::operator<(book &book1) {
-    return this->getNameOfBook() < book1.getNameOfBook();
+    return this->getNameOfBook() < book1.getNameOfBook() and this->getReleaseDate() < book1.getReleaseDate()
+           and this->getAuthorsName() < book1.getAuthorsName() and this->getNumOfPages() < book1.getNumOfPages();
 }
 
 bool book::operator<=(book &book1) {
-    return this->getNameOfBook() <= book1.getNameOfBook();
+    return this->getNameOfBook() <= book1.getNameOfBook() and this->getReleaseDate() <= book1.getReleaseDate()
+           and this->getAuthorsName() <= book1.getAuthorsName() and this->getNumOfPages() <= book1.getNumOfPages();
 }
 
 bool book::operator>(book &book1) {
-    return this->getNameOfBook() > book1.getNameOfBook();
+    return this->getNameOfBook() > book1.getNameOfBook() and this->getReleaseDate() > book1.getReleaseDate()
+           and this->getAuthorsName() > book1.getAuthorsName() and this->getNumOfPages() > book1.getNumOfPages();
 }
 
 bool book::operator>=(book &book1) {
-    return this->getNameOfBook() >= book1.getNameOfBook();
+    return this->getNameOfBook() >= book1.getNameOfBook() and this->getReleaseDate() >= book1.getReleaseDate()
+           and this->getAuthorsName() >= book1.getAuthorsName() and this->getNumOfPages() >= book1.getNumOfPages();
 }
 
 bool book::operator==(book &book1) {

@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 #include "helper.h"
 #include "vectorList.h"
 
@@ -14,21 +15,22 @@ using namespace std;
 
 
 class series;
+
 class character;
 
 
 class book {
 private:
     string nameOfBook{}, releaseDate{}, annotation{};
-    vector<string> authorsName{};
+    vectorList<string> authorsName{};
     int numOfPages{};
-    vector<character> characters;
+    vectorList<character> characters;
 public:
 
     book() = default;
 
     book(const string &nameOfBook1, const string &releaseDate1, const string &annotation1,
-         const vector<string> &authorsName1, const int numOfPages1) {
+         const vectorList<string> &authorsName1, const int numOfPages1, const vectorList<character> &characters) {
         nameOfBook = nameOfBook1;
         releaseDate = releaseDate1;
         annotation = annotation1;
@@ -36,33 +38,47 @@ public:
         numOfPages = numOfPages1;
     }
 
-    void sortAuthorsName() {
-        sort(authorsName.begin(), authorsName.end());
-    }
-
-    void setCharacters(vector<character> &characters1) {
-        characters = characters1;
-    }
-
-    vector<character> getCharacters() {
+    vectorList<character> getCharacters() {
         return characters;
     }
 
-    void addCharacter(character &newCharacter) {
-        characters.push_back(newCharacter);
+    void setCharacters(vectorList<character> &characters1) {
+        characters = characters1;
     }
 
     string getNameOfBook() { return nameOfBook; }
 
+    void setNameOfBook(string nameOfBook1) {
+        nameOfBook = (nameOfBook1);
+    }
+
     string getReleaseDate() { return releaseDate; }
+
+    void setReleaseDate(string releaseDate1) {
+        releaseDate = releaseDate1;
+    }
 
     string getAnnotation() { return annotation; }
 
-    vector<string> getAuthorsName() { return authorsName; }
+    void setAnnotation(string annotation1) {
+        annotation = annotation1;
+    }
+
+    vectorList<string> getAuthorsName() { return authorsName; }
+
+    void setAuthorsName(vectorList<string> authorsName1) {
+        authorsName = authorsName1;
+    }
 
     int getNumOfPages() { return numOfPages; }
 
+    void setNumOfPages(int numOfPages1) {
+        numOfPages = numOfPages1;
+    }
+
     friend ostream &operator<<(ostream &out, vector<string> &nameOfBook1);
+
+    friend ostream &operator<<(ostream &out, book &book1);
 
     friend ostream &operator<<(ostream &out, book &book1);
 
@@ -75,22 +91,35 @@ public:
     bool operator>=(book &book1);
 
     bool operator==(book &book1);
+
 };
 
 
 class character {
 private:
-    string nameOfTheCharacter;
-    string participation; // main, secondary, etc
+    string characterName{};
+    string participation{}; // main, secondary, etc
 public:
-    character(const string &nameOfTheCharacter1, const string &participation1) {
-        nameOfTheCharacter = nameOfTheCharacter1;
+    character() = default;
+
+    character(const string &characterName1, const string &participation1) {
+        characterName = characterName1;
         participation = participation1;
     }
 
-    string getNameOfTheCharacters() { return nameOfTheCharacter; }
+    string getCharacterName() { return characterName; }
+
+    void setCharacterName(string &characterName1) {
+        characterName = characterName1;
+    }
 
     string getParticipation() { return participation; }
+
+    void setParticipation(string &participation1) {
+        participation = participation1;
+    }
+
+    friend ostream& operator<<(ostream &out, character &character1);
 
 };
 
@@ -98,14 +127,15 @@ public:
 
 class series {
 private:
-    vector<book> seriesOfBooks{};
+    vectorList<book> seriesOfBooks{};
 
     bool checkToAddBook(book &book1) {
-        for (auto &seriesIter: seriesOfBooks) {
-            for (auto &i: seriesIter.getCharacters()) {
-                for (auto &j: book1.getCharacters()) {
-                    if (i.getNameOfTheCharacters() == j.getNameOfTheCharacters() and
-                        ((i.getParticipation() == "main" or i.getParticipation() == "secondary") and
+        for (auto &seriesOfBook: seriesOfBooks.getVectorList()) {
+            for (auto &characterIter: seriesOfBook.getCharacters().getVectorList()) {
+                for (auto &j: book1.getCharacters().getVectorList()) {
+                    if (characterIter.getCharacterName() == j.getCharacterName() and
+                        ((characterIter.getParticipation() == "main" or
+                          characterIter.getParticipation() == "secondary") and
                          (j.getParticipation() == "main" or j.getParticipation() == "secondary"))) {
                         return false;
                     }
@@ -116,7 +146,7 @@ private:
     }
 
     bool checkIfBookInSeriesAlready(book &book1) {
-        for (auto &seriesOfBook: seriesOfBooks) {
+        for (auto &seriesOfBook: seriesOfBooks.getVectorList()) {
             {
                 if (seriesOfBook == book1)
                     return true;
@@ -126,26 +156,34 @@ private:
     }
 
 public:
+    vectorList<book> getSeriesOfBooks() {
+        return seriesOfBooks;
+    }
+
+    void setSeriesOfBooks(vectorList<book> &seriesOfBooks1) {
+        seriesOfBooks = seriesOfBooks1;
+    }
 
     void show() {
-        cout << "SERIESOFBOOK SIZE " << seriesOfBooks.size() << endl;
-        for (auto &seriesOfBook: seriesOfBooks) {
+        cout << "SERIESOFBOOK SIZE " << seriesOfBooks.getSize() << endl;
+        for (auto &seriesOfBook: seriesOfBooks.getVectorList()) {
             cout << seriesOfBook;
         }
     }
 
     void addBookToSeries(book &book1) {
-        if (seriesOfBooks.size()<1) { seriesOfBooks.push_back(book1); }
+        if (seriesOfBooks.getSize() < 1) { seriesOfBooks.add(book1); }
 
         else if (checkIfBookInSeriesAlready(book1)) {
             cout << book1.getNameOfBook() << ": this book is already in series! " << endl;
         } else {
-            seriesOfBooks.push_back(book1);
+            seriesOfBooks.add(book1);
         }
     }
 
     void sortByReleaseDate() {
-        sort(this->seriesOfBooks.begin(), this->seriesOfBooks.end(), comparatorToSortByReleaseDate);
+        sort(this->seriesOfBooks.getVectorList().begin(), seriesOfBooks.getVectorList().end(),
+             comparatorToSortByReleaseDate);
     }
 
     static bool comparatorToSortByReleaseDate(book &book1, book &book2) {
@@ -158,12 +196,89 @@ public:
     friend ostream &operator<<(ostream &out, book &book1);
 };
 
-class library : public book, public series{
+class database {
 private:
     vectorList<book> library;
-    vectorList<book> series;
+    vectorList<character> characters;
+    series bookSeries;
 public:
+    vectorList<book> getLibrary() {
+        return library;
+    }
 
+    vectorList<character> getCharacters() {
+        return characters;
+    }
+
+    series getBookSeries() {
+        return bookSeries;
+    }
+
+    void addBook(book &newBook, character &newCharacter) {
+        library.add(newBook);
+        characters.add(newCharacter);
+        bookSeries.addBookToSeries(newBook);
+    }
+
+
+    void editBook(string &bookName, book &updatedBook) {
+        for (auto &bookInLibrary : library.getVectorList()) {
+            if (bookInLibrary.getNameOfBook() == bookName) {
+                bookInLibrary = updatedBook;
+                library.quickSort();
+                break;
+            }
+        }
+        cout << "Book with the name " << bookName << " isn't found" << endl;
+    }
+
+    void deleteBook(string &bookName) {
+        for(auto & bookInLibrary : library.getVectorList() )
+        {
+            if(bookInLibrary.getNameOfBook() == bookName)
+            {
+                //library.remove(bookInLibrary);
+                library.quickSort();
+            }
+        }
+        cout << "Book with the name " << bookName << " isn't found" << endl;
+    }
+
+    book searchBook(string &bookName) {
+        for(auto & bookInLibrary : library.getVectorList()){
+            if(bookInLibrary.getNameOfBook()==bookName)
+                return bookInLibrary;
+        }
+        cout << "Book with the name " << bookName << " isn't found" << endl;
+    }
+
+    void addCharacter(character &newCharacter) {
+        characters.
+    }
+
+    void editCharacter(string &characterName, character &updatedCharacter) {
+
+    }
+
+    void deleteCharacter(string &characterName) {
+
+    }
+
+    character searchCharacter(string &characterName) {
+
+    }
+
+    void displayLibrary() {
+
+    }
+
+    void showCharacters() {
+
+    }
+
+    void showSeries(){
+        bookSeries.show();
+    }
 };
 
 
