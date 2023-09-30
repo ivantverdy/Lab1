@@ -64,7 +64,7 @@ public:
         annotation = annotation1;
     }
 
-    vectorList<string> getAuthorsName() { return authorsName; }
+    vectorList<string> getVectorOfAuthorsName() { return authorsName; }
 
     void setAuthorsName(vectorList<string> authorsName1) {
         authorsName = authorsName1;
@@ -196,30 +196,23 @@ public:
     friend ostream &operator<<(ostream &out, book &book1);
 };
 
-class database {
+class database  {
 private:
     vectorList<book> library;
-    vectorList<character> characters;
     series bookSeries;
 public:
     vectorList<book> getLibrary() {
         return library;
     }
 
-    vectorList<character> getCharacters() {
-        return characters;
-    }
-
     series getBookSeries() {
         return bookSeries;
     }
 
-    void addBook(book &newBook, character &newCharacter) {
+    void addBook(book &newBook) {
         library.add(newBook);
-        characters.add(newCharacter);
         bookSeries.addBookToSeries(newBook);
     }
-
 
     void editBook(string &bookName, book &updatedBook) {
         for (auto &bookInLibrary : library.getVectorList()) {
@@ -237,10 +230,10 @@ public:
         {
             if(bookInLibrary.getNameOfBook() == bookName)
             {
-                //library.remove(bookInLibrary);
-                library.quickSort();
+                library.remove(bookInLibrary);
             }
         }
+        library.quickSort();
         cout << "Book with the name " << bookName << " isn't found" << endl;
     }
 
@@ -252,21 +245,6 @@ public:
         cout << "Book with the name " << bookName << " isn't found" << endl;
     }
 
-    void addCharacter(character &newCharacter) {
-        characters.
-    }
-
-    void editCharacter(string &characterName, character &updatedCharacter) {
-
-    }
-
-    void deleteCharacter(string &characterName) {
-
-    }
-
-    character searchCharacter(string &characterName) {
-
-    }
 
     void displayLibrary() {
 

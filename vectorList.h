@@ -77,7 +77,7 @@ public:
     }
 
     void remove(T key) {
-        vec.erase(key);
+        vec.erase(find(vec.begin(), vec.end(), key));
     }
 
     void removeLast() {
