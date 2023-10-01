@@ -5,8 +5,8 @@
 #ifndef LABB1_ARRLIST_H
 #define LABB1_ARRLIST_H
 
-#include "helper.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 

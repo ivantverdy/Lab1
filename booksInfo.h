@@ -7,14 +7,11 @@
 
 #include <iostream>
 #include <string>
-#include <utility>
-#include "helper.h"
 #include "vectorList.h"
+#include "nodeList.h"
+#include "arrList.h"
 
 using namespace std;
-
-
-class series;
 
 class character;
 
@@ -78,8 +75,8 @@ public:
     }
 
     template<class T>
-    friend ostream &operator<<(ostream &out, vectorList<T> &nameOfBook1);
 
+    friend ostream &operator<<(ostream &out, vectorList<T> &nameOfBook1);
     friend ostream &operator<<(ostream &out, book &book1);
 
     bool operator<(book &book1);

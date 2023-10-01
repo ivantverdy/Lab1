@@ -3,10 +3,8 @@
 #include <cstdlib>
 #include <random>
 
-#include "nodeList.h"
-#include "arrList.h"
-#include "vectorList.h"
 #include "booksInfo.h"
+
 
 using namespace std;
 

@@ -10,25 +10,11 @@
 #include <algorithm>
 #include <string>
 #include "booksInfo.h"
-#include <utility>
+#include "vectorList.h"
+#include "nodeList.h"
+#include "arrList.h"
 
 using namespace std;
-
-template<typename T>
-ostream &operator<<(ostream &out, vector<T> &vectorOut) {
-    for (int i = 0; i < vectorOut.size(); i++) {
-        out << vectorOut[i] << "; ";
-    }
-    return out;
-}
-
-template<typename T>
-ostream &operator<<(ostream &out, vectorList<T> &vectorOut) {
-    for (int i = 0; i < vectorOut.getVectorList().size(); i++) {
-        out << vectorOut.getVectorList()[i] << "; ";
-    }
-    return out;
-}
 
 ostream &operator<<(ostream &out, character &character1){
     cout <<"Name of character: "<< character1.getCharacterName() << "; Level of participation: " <<character1.getParticipation();
@@ -69,5 +55,20 @@ bool book::operator==(book &book1) {
            and this->getVectorOfAuthorsName().getVectorList() == book1.getVectorOfAuthorsName().getVectorList() and this->getNumOfPages() == book1.getNumOfPages();
 }
 
+template<typename T>
+ostream &operator<<(ostream &out, vectorList<T> &vectorOut) {
+    for (const auto &item : vectorOut.getVectorList()) {
+        out << item << "; ";
+    }
+    return out;
+}
+
+template<typename T>
+ostream &operator<<(ostream &out, vector<T> &vectorOut) {
+    for (int i = 0; i < vectorOut.size(); i++) {
+        out << vectorOut[i] << "; ";
+    }
+    return out;
+}
 
 #endif //LABB1_HELPER_H

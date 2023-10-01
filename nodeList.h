@@ -5,8 +5,8 @@
 #ifndef LABB1_NODELIST_H
 #define LABB1_NODELIST_H
 
-#include "helper.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 

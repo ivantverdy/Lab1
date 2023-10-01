@@ -5,8 +5,8 @@
 #ifndef LABB1_VECTORLIST_H
 #define LABB1_VECTORLIST_H
 
-#include "helper.h"
-#include <algorithm>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
