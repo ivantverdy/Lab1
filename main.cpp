@@ -2,7 +2,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <random>
-
+#include "helper.h"
 #include "booksInfo.h"
 
 
@@ -55,11 +55,11 @@ int main() {
 
     //Baskervilles book:
     vectorList<string> authorsBaskervilles;
-    authorsWitcher.add("Arthur Conan Doyle");
+    authorsBaskervilles.add("Arthur Conan Doyle");
 
     vectorList<character> charactersBaskervilles;
-    charactersWitcher.add(character4);
-    charactersWitcher.add(character5);
+    charactersBaskervilles.add(character4);
+    charactersBaskervilles.add(character5);
 
 
     book book1("Sword of Destiny", "1992", "Annotation",authorsWitcher , 200, charactersWitcher);
@@ -74,8 +74,10 @@ int main() {
     LIBRARY_OF_BOOKS.addBook(book2);
     LIBRARY_OF_BOOKS.addBook(book3);
     LIBRARY_OF_BOOKS.addBook(book4);
-    //LIBRARY_OF_BOOKS.showSeries();
-    //LIBRARY_OF_BOOKS.showLibrary();
+    LIBRARY_OF_BOOKS.showSeries();
+    cout << endl << endl;
+    LIBRARY_OF_BOOKS.showLibrary();
+    charactersWitcher.showList();
 /*
     int sizeIntList, sizeCharList, sizeStringList = 0;
     double sizeDoubleList = 0.0;

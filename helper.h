@@ -10,14 +10,12 @@
 #include <algorithm>
 #include <string>
 #include "booksInfo.h"
-#include "vectorList.h"
-#include "nodeList.h"
-#include "arrList.h"
+
 
 using namespace std;
 
 ostream &operator<<(ostream &out, character &character1){
-    cout <<"Name of character: "<< character1.getCharacterName() << "; Level of participation: " <<character1.getParticipation();
+    cout <<"Name of character: "<< character1.getCharacterName() << ", level of participation: " <<character1.getParticipation();
     return out;
 }
 
@@ -26,10 +24,13 @@ ostream &operator<<(ostream &out, book &book1) {
     out << "Release date: " << book1.releaseDate << "\n";
     out << "Annotation: " << book1.annotation << "\n";
     out << "Number of pages: " << book1.numOfPages << "\n";
-    out << "Name of authors: " << book1.authorsName << "\n";
+    out << "Name of authors: " ;
+    for(auto& i : book1.authorsName.getVectorList()) {
+        out <<  i << "; ";
+    }
+    cout << endl;
     return out;
 }
-
 bool book::operator<(book &book1) {
     return this->getNameOfBook() < book1.getNameOfBook() and this->getReleaseDate() < book1.getReleaseDate()
            and this->getVectorOfAuthorsName().getVectorList() < book1.getVectorOfAuthorsName().getVectorList() and this->getNumOfPages() < book1.getNumOfPages();
@@ -58,7 +59,7 @@ bool book::operator==(book &book1) {
 template<typename T>
 ostream &operator<<(ostream &out, vectorList<T> &vectorOut) {
     for (const auto &item : vectorOut.getVectorList()) {
-        out << item << "; ";
+        out << item << ". ";
     }
     return out;
 }
@@ -66,7 +67,7 @@ ostream &operator<<(ostream &out, vectorList<T> &vectorOut) {
 template<typename T>
 ostream &operator<<(ostream &out, vector<T> &vectorOut) {
     for (int i = 0; i < vectorOut.size(); i++) {
-        out << vectorOut[i] << "; ";
+        out << vectorOut[i] << ". ";
     }
     return out;
 }

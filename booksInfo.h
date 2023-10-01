@@ -122,7 +122,7 @@ public:
 
 //дві книги належать до однієї серії, якщо у них є спільний головний чи другорядний персонаж
 
-class series {
+class series : public book{
 private:
     vectorList<book> seriesOfBooks{};
 
@@ -190,6 +190,7 @@ public:
     }
 
     friend ostream &operator<<(ostream &out, book &book1);
+
 };
 
 class database {
