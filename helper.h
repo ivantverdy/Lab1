@@ -29,6 +29,10 @@ ostream &operator<<(ostream &out, book &book1) {
         out <<  i << "; ";
     }
     cout << endl;
+    out << "Name of characters: " ;
+    for(auto i : book1.getCharacters().getVectorList()){
+        out << i << "; ";
+    }
     return out;
 }
 bool book::operator<(book &book1) {

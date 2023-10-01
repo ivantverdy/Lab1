@@ -2,19 +2,21 @@
 #include <ctime>
 #include <cstdlib>
 #include <random>
+#include <fstream>
 #include "helper.h"
 #include "booksInfo.h"
-
+#include "funcForSimpleInterface.h"
 
 using namespace std;
 
 int menuMovement;
 
-void menu(){
+void menu() {
     cout << "Choose option: " << endl;
-    cout << "Close program: 1" << endl;
-    cout << "Write down data: 2" << endl;
-    cout << "Show data: 3" << endl;
+    cout << "Close program: 0" << endl;
+    cout << "Write down book in library: 1" << endl;
+    cout << "Show library: 2" << endl;
+    cout << "Show series of books: 3" << endl;
     cout << "Change data: 4" << endl;
     cout << "Add data: 5" << endl;
     cout << "Sort data: 6" << endl;
@@ -31,53 +33,103 @@ int main() {
     mt19937 mt(rd());
     uniform_real_distribution<double> dist(1.0, 1000.0);
 
-    //menu();
+    menu();
 
     string fileName;
-    int actons;
+    int actions;
+    database library;
 
-    character character1("Geralt", "main");
-    character character2("Yennefer", "secondary");
-    character character3("Lutic", "secondary");
-    character character4("Sherlock Holmes", "main");
-    character character5("John Watson", "secondary");
+    while (menuMovement != 0) {
+        switch (menuMovement) {
+            case 1:
+                cout << "Write book by hands or read from file? " << endl;
+                cin >> actions;
+                if (actions == 1) {
 
-    //witcher book:
-    vectorList<string> authorsWitcher;
-    authorsWitcher.add("andrzej sapkowski");
-    authorsWitcher.add("may be me 123 check");
-    authorsWitcher.add("542351 check");
+                    writeBook(library);
 
-    vectorList<character> charactersWitcher;
-    charactersWitcher.add(character1);
-    charactersWitcher.add(character2);
-    charactersWitcher.add(character3);
+                    menu();
+                } else {
 
-    //Baskervilles book:
-    vectorList<string> authorsBaskervilles;
-    authorsBaskervilles.add("Arthur Conan Doyle");
+                    cout << "Write name of the file you want to get data from: " << endl;
+                    cin >> fileName;
+                    readBook(library, fileName);
 
-    vectorList<character> charactersBaskervilles;
-    charactersBaskervilles.add(character4);
-    charactersBaskervilles.add(character5);
+                    menu();
+                }
+                break;
+            case 2:
+                if (!library.getLibrary().getVectorList().empty()) {
+                    library.showLibrary();
+                } else {
+                    cout << "Library is empty! " << endl;
+                }
+                menu();
+                break;
+            case 3:
+                if (!library.getBookSeries().getSeriesOfBooks().getVectorList().empty())
+                {
+                    library.showSeries();
+                }
+                else{
+                    cout << "Library is empty! " << endl;
+                }
+        }
+
+    }
+}
 
 
-    book book1("Sword of Destiny", "1992", "Annotation",authorsWitcher , 200, charactersWitcher);
-    book book2("The Last Wish", "1993", "Annotation", authorsWitcher, 200, charactersWitcher);
-    book book3("The Hound of the Baskervilles", "1902", "Annotation",authorsBaskervilles, 226, charactersBaskervilles);
-    book book4("Blood of Elves", "1994", "Annotation", authorsWitcher, 200,charactersWitcher);
+/*vectorList<character> charactersWitcher;
+vectorList<string> authorsWitcher;
+book book1("Sword of Destiny", "1992", "Annotation",authorsWitcher , 200, charactersWitcher);
+
+character character1("Geralt", "main");
+character character2("Yennefer", "secondary");
+character character3("Lutic", "secondary");
+character character4("Sherlock Holmes", "main");
+character character5("John Watson", "secondary");
+
+//witcher book:
+vectorList<string> authorsWitcher;
+authorsWitcher.add("andrzej sapkowski");
+authorsWitcher.add("may be me 123 check");
+authorsWitcher.add("542351 check");
+
+vectorList<character> charactersWitcher;
+charactersWitcher.add(character1);
+charactersWitcher.add(character2);
+charactersWitcher.add(character3);
+
+//Baskervilles book:
+vectorList<string> authorsBaskervilles;
+authorsBaskervilles.add("Arthur Conan Doyle");
+
+vectorList<character> charactersBaskervilles;
+charactersBaskervilles.add(character4);
+charactersBaskervilles.add(character5);
+
+
+book book1("Sword of Destiny", "1992", "Annotation",authorsWitcher , 200, charactersWitcher);
+book book2("The Last Wish", "1993", "Annotation", authorsWitcher, 200, charactersWitcher);
+book book3("The Hound of the Baskervilles", "1902", "Annotation",authorsBaskervilles, 226, charactersBaskervilles);
+book book4("Blood of Elves", "1994", "Annotation", authorsWitcher, 200,charactersWitcher);
 
 
 
-    database LIBRARY_OF_BOOKS;
-    LIBRARY_OF_BOOKS.addBook(book1);
-    LIBRARY_OF_BOOKS.addBook(book2);
-    LIBRARY_OF_BOOKS.addBook(book3);
-    LIBRARY_OF_BOOKS.addBook(book4);
-    LIBRARY_OF_BOOKS.showSeries();
-    cout << endl << endl;
-    LIBRARY_OF_BOOKS.showLibrary();
-    charactersWitcher.showList();
+database LIBRARY_OF_BOOKS;
+LIBRARY_OF_BOOKS.addBook(book1);
+LIBRARY_OF_BOOKS.addBook(book2);
+LIBRARY_OF_BOOKS.addBook(book3);
+LIBRARY_OF_BOOKS.addBook(book4);
+LIBRARY_OF_BOOKS.showSeries();
+cout << endl << endl;
+LIBRARY_OF_BOOKS.showLibrary();
+charactersWitcher.showList();
+*/
+
+
+
 /*
     int sizeIntList, sizeCharList, sizeStringList = 0;
     double sizeDoubleList = 0.0;
@@ -185,5 +237,4 @@ int main() {
 
 
 
-    return 0;
-}
+
