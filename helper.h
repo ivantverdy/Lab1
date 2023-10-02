@@ -16,6 +16,7 @@ using namespace std;
 
 ostream &operator<<(ostream &out, character &character1){
     cout <<"Name of character: "<< character1.getCharacterName() << ", level of participation: " <<character1.getParticipation();
+    cout << endl;
     return out;
 }
 
@@ -31,8 +32,9 @@ ostream &operator<<(ostream &out, book &book1) {
     cout << endl;
     out << "Name of characters: " ;
     for(auto i : book1.getCharacters().getVectorList()){
-        out << i << "; ";
+        out << i << " ";
     }
+    cout << endl;
     return out;
 }
 bool book::operator<(book &book1) {

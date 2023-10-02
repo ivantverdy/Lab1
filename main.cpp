@@ -17,12 +17,12 @@ void menu() {
     cout << "Write down book in library: 1" << endl;
     cout << "Show library: 2" << endl;
     cout << "Show series of books: 3" << endl;
-    cout << "Change data: 4" << endl;
-    cout << "Add data: 5" << endl;
-    cout << "Sort data: 6" << endl;
-    cout << "Save data: 7" << endl;
+    cout << "Change data in book: 4" << endl;
+    cout << "Sort books in library: 5" << endl;
+    cout << "Save books in file: 6" << endl;
     cout << "Your choice: ";
     cin >> menuMovement;
+    cout << endl;
 }
 
 int main() {
@@ -67,16 +67,32 @@ int main() {
                 menu();
                 break;
             case 3:
-                if (!library.getBookSeries().getSeriesOfBooks().getVectorList().empty())
+
+                if (!library.getBookSeries().getVectorList().empty())
                 {
                     library.showSeries();
                 }
                 else{
                     cout << "Library is empty! " << endl;
                 }
-        }
+                menu();
+                break;
+            case 4:{
+                changeBookData(library);
+                menu();
+                break;
+            }
+            case 5:{
+                sortLibrary(library);
+                break;
+            }
+            case 6:{
 
+                break;
+            }
+        }
     }
+    return 0;
 }
 
 
