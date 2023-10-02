@@ -52,7 +52,7 @@ int main() {
                 } else {
 
                     cout << "Write name of the file you want to get data from: " << endl;
-                    cin >> fileName;
+                    getline(cin >> ws, fileName);
                     readBook(library, fileName);
 
                     menu();
@@ -87,7 +87,9 @@ int main() {
                 break;
             }
             case 6:{
-
+                cout << "Write name of the file you want to write book into: " << endl;
+                getline(cin >> ws, fileName);
+                saveInFile(library, fileName);
                 break;
             }
         }

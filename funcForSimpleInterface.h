@@ -5,6 +5,7 @@
 #ifndef LABB1_FUNCFORSIMPLEINTERFACE_H
 #define LABB1_FUNCFORSIMPLEINTERFACE_H
 
+#include "vectorList.h"
 
 book writeBookData() {
     string nameOfBook, releaseDate, annotation;
@@ -217,9 +218,31 @@ database changeBookData(database &library) {
     return library;
 }
 
-void sortLibrary(database &library){
-    library.getLibrary().quickSort();
+
+void sortLibrary(database &library) {
+    library.sortByReleaseDate();
     library.getLibrary().showList();
+} // need to be fixed
+
+void saveInFile(database &library, string &fileName) {
+    ofstream record(fileName);
+    int numOfBooksInFile;
+    cin >> numOfBooksInFile;
+    record << numOfBooksInFile;
+    if (record) {
+        for (int i = 0; i < library.getLibrary().getVectorList().size(); i++) {
+            record << library.getNameOfBook();
+            record << library.getReleaseDate();
+            record << library.getAnnotation();
+            record << library.getNumOfPages();
+            record << library.getReleaseDate()[i];
+            record << library.getAnnotation()[i];
+            record << library.getNumOfPages(); //<< library.getVectorOfAuthorsName();overload for vectorList authors
+        }
+    }
 }
+
+}
+
 
 #endif //LABB1_FUNCFORSIMPLEINTERFACE_H

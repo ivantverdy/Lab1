@@ -157,6 +157,9 @@ private:
         return checkToAddBook(book1);
     }
 
+    static bool comparatorToSortByReleaseDate(book &book1, book &book2) {
+        return book1.getReleaseDate() < book2.getReleaseDate();
+    }
 public:
     vectorList<book> getSeriesOfBooks() {
         return seriesOfBooks;
@@ -188,15 +191,11 @@ public:
              comparatorToSortByReleaseDate);
     }
 
-    static bool comparatorToSortByReleaseDate(book &book1, book &book2) {
-        return book1.getReleaseDate() < book2.getReleaseDate();
-    }
-
     friend ostream &operator<<(ostream &out, book &book1);
 
 };
 
-class database {
+class database :  public character, public series{
 private:
     vectorList<book> library;
     vectorList<series> booksSeries;
