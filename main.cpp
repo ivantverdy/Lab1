@@ -67,7 +67,6 @@ int main() {
                 menu();
                 break;
             case 3:
-
                 if (!library.getBookSeries().getVectorList().empty())
                 {
                     library.showSeries();

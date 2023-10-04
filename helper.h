@@ -65,7 +65,7 @@ bool book::operator==(book &book1) {
 template<typename T>
 ostream &operator<<(ostream &out, vectorList<T> &vectorOut) {
     for (const auto &item : vectorOut.getVectorList()) {
-        out << item << ". ";
+        out << item << ", ";
     }
     return out;
 }
@@ -73,8 +73,13 @@ ostream &operator<<(ostream &out, vectorList<T> &vectorOut) {
 template<typename T>
 ostream &operator<<(ostream &out, vector<T> &vectorOut) {
     for (int i = 0; i < vectorOut.size(); i++) {
-        out << vectorOut[i] << ". ";
+        out << vectorOut[i] << ", ";
     }
+    return out;
+}
+
+ostream &operator<<(ostream &out, series &series1){
+    series1.showSeriesOfBooks();
     return out;
 }
 

@@ -75,7 +75,7 @@ public:
     }
 
     void showBook() {
-        cout << *this;
+        cout << this;
     }
 
     template<class T>
@@ -169,10 +169,10 @@ public:
         seriesOfBooks = seriesOfBooks1;
     }
 
-    void show() {
+    void showSeriesOfBooks() {
         cout << "SERIESOFBOOK SIZE " << seriesOfBooks.getSize() << endl;
-        for (auto &seriesOfBook: seriesOfBooks.getVectorList()) {
-            cout << seriesOfBook;
+        for (auto &item: seriesOfBooks.getVectorList()) {
+            item.showBook();
         }
     }
 
@@ -210,12 +210,12 @@ public:
 
     void addBook(book &newBook) {
         library.add(newBook);
-        for (auto &series : booksSeries.getVectorList()) {
-            series.addBookToSeries(newBook);
+        for (auto &bookInSeries : booksSeries.getVectorList()) {
+            bookInSeries.addBookToSeries(newBook);
         }
     }
 
-    /*void editBook(string &bookName, book &updatedBook) {
+    void editBook(string &bookName, book &updatedBook) {
         for (auto &bookInLibrary: library.getVectorList()) {
             if (bookInLibrary.getNameOfBook() == bookName) {
                 bookInLibrary = updatedBook;
@@ -224,7 +224,7 @@ public:
             }
         }
         cout << "Book with the name " << bookName << " isn't found" << endl;
-    }*/ // need to fix it
+    } // need to fix it
 
     void deleteBook(string &bookName) {
         for (auto &bookInLibrary: library.getVectorList()) {
@@ -252,8 +252,8 @@ public:
         }
 
     void showSeries() {
-        for (auto &series: booksSeries.getVectorList()) {
-            series.show();
+        for (auto &bookInSeries: booksSeries.getVectorList()) {
+            bookInSeries.showSeriesOfBooks();
         }
     }
 

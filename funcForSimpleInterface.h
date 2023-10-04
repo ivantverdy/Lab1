@@ -220,8 +220,8 @@ database changeBookData(database &library) {
 
 
 void sortLibrary(database &library) {
-    library.sortByReleaseDate();
     library.getLibrary().showList();
+    library.getLibrary().mergeSort();  // Assuming mergeSort is implemented in
 } // need to be fixed
 
 void saveInFile(database &library, string &fileName) {
@@ -240,8 +240,6 @@ void saveInFile(database &library, string &fileName) {
             record << library.getNumOfPages(); //<< library.getVectorOfAuthorsName();overload for vectorList authors
         }
     }
-}
-
 }
 
 
