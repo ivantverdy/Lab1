@@ -26,7 +26,7 @@ void menu() {
 }
 
 int main() {
-//123
+
     srand(time(nullptr));
 
     random_device rd;
